@@ -1,0 +1,15 @@
+{
+    "name": "vladimir/demo-project",
+    "description": "Vladimir's demo project.",
+    "type": "project",
+    "authors": [
+        {
+            "name": "vladamljc",
+            "email": "vladimir.milijic@logeecom.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "illuminate/database": "^7.0"
+    }
+}
