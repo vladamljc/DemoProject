@@ -1,18 +1,23 @@
 <?php
 
-require_once ('../vendor/autoload.php');
+require_once('../vendor/autoload.php');
 
 require_once('../config.php');
 
+use Catalog\Http\RequestFactory;
+use Catalog\Loader;
+use Catalog\Services\Dispatcher;
+
 echo 'Hello world<br>';
 
-$users = \Catalog\Database\Database::getConnection()::table('test_table')->get();
+$loader = new Loader();
+$loader->load();
 
+$request = RequestFactory::makeNewRequest();
 
-foreach ($users as $u){
-    echo $u->id;
-    echo $u->name;
-    echo "<br>";
-}
+$dispatcher = new Dispatcher();
+$response = $dispatcher->dispatch($request);
+echo $response->getContent();
+
 
 
