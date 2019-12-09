@@ -47,6 +47,9 @@ class HomeController extends FrontController
                         </tr>
                      </table>');
 
+        //$content = file_get_contents(__DIR__ . '../TemplateView.php',1);
+        //$htmlResponse->setContent($content);
+
         return $htmlResponse;
     }
 }
