@@ -2,8 +2,8 @@
 
 namespace Catalog\Services;
 
+use Catalog\Controllers\ErrorHandler;
 use Catalog\Exceptions\RouteNotFoundException;
-use Catalog\Http\ExceptionResponse;
 use Catalog\Http\Request;
 use Catalog\Http\Response;
 use Catalog\Middleware\MiddlewarePipeline;
@@ -34,7 +34,8 @@ class Dispatcher
         try {
             $route = Routes::getRoute($request);
         } catch (RouteNotFoundException $routeException) {
-            return new ExceptionResponse();
+            $errorController = new ErrorHandler();
+            $errorController->handleError(404);
         }
 
         MiddlewarePipeline::process($request, $route->getMiddlewareList());
