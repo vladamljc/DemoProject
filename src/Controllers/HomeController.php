@@ -12,21 +12,14 @@ use Catalog\Http\Response;
  */
 class HomeController extends FrontController
 {
-    /**
-     * HomeController constructor.
-     */
-    public function __construct()
-    {
-        // echo 'HomeController constructed<br>';
-        parent::__construct();
-    }
 
-    /**
+    /**Stub method for rendering index page
+     *
      * @return Response
      */
     public function renderHomePage(): Response
     {
-        //return new TestResponse('Test response here...');
+
         $htmlResponse = new HTMLResponse();
         $htmlResponse->setContent(
             '<table style="width:30%">
@@ -46,9 +39,6 @@ class HomeController extends FrontController
                             <td>94</td>
                         </tr>
                      </table>');
-
-        //$content = file_get_contents(__DIR__ . '../TemplateView.php',1);
-        //$htmlResponse->setContent($content);
 
         return $htmlResponse;
     }

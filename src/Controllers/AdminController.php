@@ -2,11 +2,12 @@
 
 namespace Catalog\Controllers;
 
+/**
+ * Class AdminController
+ *
+ * @package Catalog\Controllers
+ */
 class AdminController extends BaseController
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
 
 }

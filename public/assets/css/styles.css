@@ -19,14 +19,31 @@ li a:hover {
     color: white;
 }
 
-.divNavigationBar {
+.navigation-bar {
     width: 200px;
     float: left;
 }
 
-.divAdminContent {
+.admin-content {
     width: 1400px;
     height: 800px;
     float: left;
     background: #f1f1f1;
+}
+
+.center-screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 100vh;
+}
+
+.text-size1 {
+    font-size: 50px;
+}
+
+.text-size2 {
+    font-size: 25px;
 }

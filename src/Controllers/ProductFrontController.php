@@ -2,10 +2,12 @@
 
 namespace Catalog\Controllers;
 
+/**
+ * Class ProductFrontController
+ *
+ * @package Catalog\Controllers
+ */
 class ProductFrontController extends FrontController
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
+
 }

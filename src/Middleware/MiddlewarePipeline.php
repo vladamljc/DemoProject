@@ -11,13 +11,6 @@ use Catalog\Http\Request;
  */
 class MiddlewarePipeline
 {
-    /**
-     * MiddlewarePipeline constructor.
-     */
-    protected function __construct()
-    {
-
-    }
 
     /**
      * Checks if request can pass trough the list of middlewares.

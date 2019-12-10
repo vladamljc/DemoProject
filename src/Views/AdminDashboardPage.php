@@ -1,7 +1,7 @@
 <html lang="en">
 <head>
     <title>Dashboard</title>
-    <link rel="stylesheet" type="text/css" href="/styles.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/styles.css">
 </head>
 
 <body>
@@ -9,11 +9,12 @@
 
 <h1>Admin dashboard page</h1>
 
-<div class="divNavigationBar">
+<div class="navigation-bar">
     <?php include('AdminNavigationBar.php') ?>
 </div>
 
-<div class="divAdminContent">
+<div class="admin-content">
+
 
 </div>
 

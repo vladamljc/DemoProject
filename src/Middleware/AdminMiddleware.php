@@ -13,11 +13,12 @@ class AdminMiddleware extends Middleware
 {
 
     /**
+     * Tries to handle request passed as argument
+     *
      * @param Request $request
      */
     public function handle(Request $request): void
     {
-        echo 'Dummy middleware handle called';
-        //throws Exceptions...
+
     }
 }

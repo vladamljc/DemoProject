@@ -21,11 +21,12 @@ class HTMLResponse extends Response
      */
     public function __construct(string $stringHTML = '')
     {
-        parent::__construct();
         $this->stringHTML = $stringHTML;
     }
 
     /**
+     * Getting string content.
+     *
      * @return string
      */
     public function getContent(): string
@@ -34,9 +35,11 @@ class HTMLResponse extends Response
     }
 
     /**
+     * Setting content by string.
+     *
      * @param string $stringHTML
      */
-    public function setContent(string $stringHTML)
+    public function setContent(string $stringHTML): void
     {
         $this->stringHTML = $stringHTML;
     }

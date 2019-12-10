@@ -7,16 +7,9 @@ namespace Catalog;
  */
 class Loader
 {
-    /**
-     * Loader constructor.
-     */
-    public function __construct()
-    {
-        //echo 'Loader constructed<br>';
-    }
 
     /**
-     *
+     *Loading all valid routes
      */
     public function load(): void
     {

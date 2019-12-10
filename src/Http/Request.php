@@ -10,7 +10,7 @@ namespace Catalog\Http;
 class Request
 {
     /**
-     * @var array
+     * @var string
      */
     private $body;
     /**
@@ -31,25 +31,17 @@ class Request
     private $uri;
 
     /**
-     * Request constructor.
+     * @return string
      */
-    public function __construct()
-    {
-        //echo 'Request constructed<br>';
-    }
-
-    /**
-     * @return array
-     */
-    public function getBody(): array
+    public function getBody(): string
     {
         return $this->body;
     }
 
     /**
-     * @param array $body
+     * @param string $body
      */
-    public function setBody(array $body): void
+    public function setBody($body): void
     {
         $this->body = $body;
     }

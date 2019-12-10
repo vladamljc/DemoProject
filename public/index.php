@@ -8,8 +8,6 @@ use Catalog\Http\RequestFactory;
 use Catalog\Loader;
 use Catalog\Services\Dispatcher;
 
-//echo 'Hello world<br>';
-
 $loader = new Loader();
 $loader->load();
 

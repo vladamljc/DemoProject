@@ -11,14 +11,8 @@ abstract class Response
 {
 
     /**
-     * Response constructor.
-     */
-    public function __construct()
-    {
-
-    }
-
-    /**
+     * Returns content from Response(usually string).
+     *
      * @return string to be redefined in classes that extend Response class
      */
     abstract public function getContent(): string;
