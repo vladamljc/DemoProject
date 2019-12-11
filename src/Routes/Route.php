@@ -45,7 +45,6 @@ class Route
         $this->uri = $uri;
         $this->method = $method;
         $this->middlewareList = array();
-        //echo 'route constructed<br>';
     }
 
     /**
@@ -66,27 +65,11 @@ class Route
     }
 
     /**
-     * @param string $controller
-     */
-    public function setController(string $controller): void
-    {
-        $this->controller = $controller;
-    }
-
-    /**
      * @return string
      */
     public function getAction(): string
     {
         return $this->action;
-    }
-
-    /**
-     * @param string $action
-     */
-    public function setAction(string $action): void
-    {
-        $this->action = $action;
     }
 
     /**
@@ -98,27 +81,11 @@ class Route
     }
 
     /**
-     * @param string $uri
-     */
-    public function setUri(string $uri): void
-    {
-        $this->uri = $uri;
-    }
-
-    /**
      * @return string
      */
     public function getMethod(): string
     {
         return $this->method;
-    }
-
-    /**
-     * @param string $method
-     */
-    public function setMethod(string $method): void
-    {
-        $this->method = $method;
     }
 
     /**

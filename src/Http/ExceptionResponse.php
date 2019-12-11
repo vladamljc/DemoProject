@@ -9,10 +9,6 @@ namespace Catalog\Http;
  */
 class ExceptionResponse extends Response
 {
-    /**
-     * @var string
-     */
-    private $error_message;
 
     /**
      * ExceptionResponse constructor.
@@ -20,9 +16,6 @@ class ExceptionResponse extends Response
     public function __construct()
     {
         parent::__construct();
-        $this->error_message = 'ERROR 404 ROUTE NOT FOUND';
-
-        http_response_code(404);
     }
 
     /**
@@ -30,6 +23,6 @@ class ExceptionResponse extends Response
      */
     public function getContent(): string
     {
-        return $this->error_message;
+        return '';
     }
 }
