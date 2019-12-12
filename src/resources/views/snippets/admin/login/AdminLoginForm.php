@@ -1,18 +1,20 @@
-<form name="loginForm" method="post" action="">
+<form name="loginForm" method="post" action="" class="form">
 
     <table>
         <tr>
-            <td colspan="2" align="center" class="text-size1">Welcome</td>
+            <td colspan="2">
+                <h1>Welcome</h1>
+            </td>
         </tr>
         <tr>
-            <td colspan="2" align="center" class="text-size2">
-                To demo shop administration!
+            <td colspan="2">
+                <h2>To demo shop administration!</h2>
             </td>
 
         </tr>
 
         <tr>
-            <td align="right" width="25%">
+            <td>
                 user name
             </td>
 
@@ -23,7 +25,7 @@
         </tr>
 
         <tr>
-            <td align="right">
+            <td>
                 password
             </td>
 
@@ -34,7 +36,7 @@
         </tr>
 
         <tr>
-            <td width="100%" colspan="2" align="center">
+            <td colspan="2" align="center">
                 <input type="checkbox" name="checkboxLoggedIn">keep me logged in</input>
                 <button type="submit" value="loginButton" name="loginButton">Log in</button>
             </td>

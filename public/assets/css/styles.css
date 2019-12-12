@@ -1,4 +1,9 @@
-ul {
+.navigation-bar {
+    width: 200px;
+    float: left;
+}
+
+.navigation-bar ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -6,22 +11,17 @@ ul {
     background-color: #f1f1f1;
 }
 
-li a {
+.navigation-bar li a {
     display: block;
     color: #000;
     padding: 8px 16px;
     text-decoration: none;
 }
 
-/* Change the link color on hover */
-li a:hover {
+
+.navigation-bar li a:hover {
     background-color: #555;
     color: white;
-}
-
-.navigation-bar {
-    width: 200px;
-    float: left;
 }
 
 .admin-content {
@@ -46,4 +46,24 @@ li a:hover {
 
 .text-size2 {
     font-size: 25px;
+}
+
+.form {
+
+}
+
+.form table td {
+    text-align: left;
+    padding: 0px;
+    margin: 0px;
+}
+
+.form table h1 {
+    font-size: 40px;
+    margin: 0;
+}
+
+.form table h2 {
+    font-size: 30px;
+    margin: 0;
 }
