@@ -10,7 +10,7 @@
 <h1>Admin categories page</h1>
 
 <div class="navigation-bar">
-    <?php include('AdminNavigationBar.php') ?>
+    <?php include __DIR__ . '/../snippets/admin/navigation/AdminNavigationBar.php'; ?>
 </div>
 
 <div class="admin-content">

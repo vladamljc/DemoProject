@@ -4,7 +4,7 @@ namespace Catalog\Controllers;
 
 use Catalog\Http\HTMLResponse;
 use Catalog\Http\Response;
-use Catalog\Views\ViewRenderer;
+use Catalog\Utility\ViewRenderer;
 
 /**
  * Class CategoryController
@@ -21,7 +21,7 @@ class CategoryController extends AdminController
     public function index(): Response
     {
         $response = new HTMLResponse();
-        $response->setContent(ViewRenderer::render('AdminCategoriesPage', array()));
+        $response->setContent(ViewRenderer::render('views/admin/AdminCategoriesPage'));
 
         return $response;
     }

@@ -6,7 +6,7 @@
 
 <body>
 <div class="center-screen">
-    <?php include 'AdminLoginForm.php' ?>
+    <?php include __DIR__ . '/../snippets/admin/login/AdminLoginForm.php'; ?>
 </div>
 </body>
 </html>

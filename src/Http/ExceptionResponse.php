@@ -9,13 +9,20 @@ namespace Catalog\Http;
  */
 class ExceptionResponse extends Response
 {
+    /**
+     * @var string $errorMessage
+     */
+    private $errorMessage;
 
     /**
      * ExceptionResponse constructor.
+     *
+     * @param string $errorMessage
      */
-    public function __construct()
+    public function __construct(string $errorMessage)
     {
         parent::__construct();
+        $this->errorMessage = $errorMessage;
     }
 
     /**
@@ -23,6 +30,6 @@ class ExceptionResponse extends Response
      */
     public function getContent(): string
     {
-        return '';
+        return $this->errorMessage;
     }
 }

@@ -19,9 +19,9 @@ class LoginService
      * @param string $username
      * @param string $password
      *
-     * @return Admin
+     * @return Admin|null
      */
-    public static function login(string $username, string $password): Admin
+    public static function login(string $username, string $password): ?Admin
     {
         /**
          * @var Admin $admin
@@ -30,9 +30,9 @@ class LoginService
 
         if ($admin === null) {
             return null;
+        } else {
+            return $admin;
         }
-
-        return $admin;
     }
 
 }

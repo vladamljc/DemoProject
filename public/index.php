@@ -9,6 +9,8 @@ use Catalog\Http\RequestFactory;
 use Catalog\Loader;
 use Catalog\Services\Dispatcher;
 
+session_start();
+
 $loader = new Loader();
 $loader->load();
 
@@ -17,8 +19,14 @@ $request = RequestFactory::makeNewRequest();
 $dispatcher = new Dispatcher();
 $response = $dispatcher->dispatch($request);
 if ($response instanceof ExceptionResponse) {
-    exit;
+    if ($response->getContent() === 404) {
+        exit;
+    }
+    if ($response->getContent() === 401) {
+        exit;
+    }
 }
 echo $response->getContent();
+
 
 

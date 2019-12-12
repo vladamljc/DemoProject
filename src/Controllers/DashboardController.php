@@ -4,7 +4,7 @@ namespace Catalog\Controllers;
 
 use Catalog\Http\HTMLResponse;
 use Catalog\Http\Response;
-use Catalog\Views\ViewRenderer;
+use Catalog\Utility\ViewRenderer;
 
 /**
  * Class DashboardController
@@ -22,8 +22,7 @@ class DashboardController extends AdminController
     public function index(): Response
     {
         $response = new HTMLResponse();
-        $response->setContent(ViewRenderer::render('AdminDashboardPage', array()));
-
+        $response->setContent(ViewRenderer::render('views/admin/AdminDashboardPage'));
         return $response;
     }
 }

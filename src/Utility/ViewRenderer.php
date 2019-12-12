@@ -1,11 +1,11 @@
 <?php
 
-namespace Catalog\Views;
+namespace Catalog\Utility;
 
 /**
  * Class ViewRenderer
  *
- * @package Catalog\Views
+ * @package Catalog\Utility
  */
 class ViewRenderer
 {
@@ -26,7 +26,7 @@ class ViewRenderer
             extract($data, EXTR_OVERWRITE);
         }
 
-        include __DIR__ . '/../Views/' . $view . '.php';
+        include __DIR__ . '/../resources/' . $view . '.php';
 
         return ob_get_clean();
     }

@@ -18,17 +18,23 @@ class ErrorHandler extends FrontController
      *
      * @return Response
      */
-    public function handleError(int $errorCode): Response
+    public function handleError(int $errorCode): ?Response
     {
         switch ($errorCode) {
             case 404:
             {
                 http_response_code(404);
-            }
-            case 500:
-            {
 
+                return null;
             }
+            case 401:
+            {
+                http_response_code(401);
+
+                return null;
+            }
+            default:
+                null;
         }
     }
 }

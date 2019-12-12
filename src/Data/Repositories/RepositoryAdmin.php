@@ -4,6 +4,7 @@ namespace Catalog\Data\Repositories;
 
 use Catalog\Data\Models\Admin;
 use Catalog\Database\Database;
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * Class RepositoryAdmin
@@ -19,18 +20,23 @@ class RepositoryAdmin
      * @param string $username
      * @param string $password
      *
-     * @return Admin
+     * @return Admin|null
      */
-    public static function getAdmin(string $username, string $password): Admin
+    public static function getAdmin(string $username, string $password): ?Admin
     {
         $encrypted_password = hash('sha256', $password);
         $matchThese = ['username' => $username, 'password' => $encrypted_password];
 
         Database::getConnection();
 
+        /** @var Collection $admins */
         $admins = Admin::where($matchThese)->get();
 
-        return $admins[0];
+        if ($admins->isEmpty()) {
+            return null;
+        } else {
+            return $admins[0];
+        }
     }
 
 }
