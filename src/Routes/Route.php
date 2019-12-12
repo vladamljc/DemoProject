@@ -37,23 +37,20 @@ class Route
      * @param string $action
      * @param string $uri
      * @param string $method
+     * @param array $middlewareList
      */
-    public function __construct(string $controller, string $action, string $uri, string $method)
-    {
+    public function __construct(
+        string $controller,
+        string $action,
+        string $uri,
+        string $method,
+        array $middlewareList = []
+    ) {
         $this->controller = $controller;
         $this->action = $action;
         $this->uri = $uri;
         $this->method = $method;
-        $this->middlewareList = array();
-    }
-
-    /**
-     * @param string $newMiddleware
-     */
-    public function addMiddleware(string $newMiddleware): void
-    {
-        echo 'new middleware added...<br>';
-        $this->middlewareList[] = $newMiddleware;
+        $this->middlewareList = $middlewareList;
     }
 
     /**
@@ -96,11 +93,4 @@ class Route
         return $this->middlewareList;
     }
 
-    /**
-     * @param array $middlewareList
-     */
-    public function setMiddlewareList(array $middlewareList): void
-    {
-        $this->middlewareList = $middlewareList;
-    }
 }
