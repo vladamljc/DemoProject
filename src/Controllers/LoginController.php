@@ -41,14 +41,6 @@ class LoginController extends FrontController
         $admin = LoginService::login($username, $password);
         if ($admin !== null) {
             $redirect = new DashboardController();
-            session_start();
-            $_SESSION['username'] = $username;
-            $_SESSION['password'] = $password;
-
-            if (isset($_POST['checkboxLoggedIn'])) {
-                $cookieName = 'cookieAdmin';
-                setcookie($cookieName, $username);
-            }
 
             return $redirect->index();
         }

@@ -3,7 +3,7 @@
 namespace Catalog\Services;
 
 use Catalog\Data\Models\Admin;
-use Catalog\Data\Repositories\RepositoryAdmin;
+use Catalog\Data\Repositories\AdminRepository;
 
 /**
  * Class LoginService
@@ -26,11 +26,20 @@ class LoginService
         /**
          * @var Admin $admin
          */
-        $admin = RepositoryAdmin::getAdmin($username, $password);
+        $admin = AdminRepository::getByUsername($username, $password);
 
         if ($admin === null) {
             return null;
         } else {
+            session_start();
+            $_SESSION['username'] = $username;
+            $_SESSION['password'] = $password;
+
+            if (isset($_POST['checkboxLoggedIn'])) {
+                $cookieName = 'cookieAdmin';
+                setcookie($cookieName, $username);
+            }
+
             return $admin;
         }
     }

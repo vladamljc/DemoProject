@@ -11,9 +11,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property int Id
  * @property string Username
  * @property string Password
- * @method static Builder where($column, $operator = null, $value = null, $boolean = 'and')
- * @method static Builder create(array $attributes = [])
- * @method public Builder update(array $values)
+ * @method where
+ * @method create
+ * @method update
  */
 class Admin extends Model
 {
