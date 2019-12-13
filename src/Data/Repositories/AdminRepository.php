@@ -21,27 +21,19 @@ class AdminRepository
      *
      * @return Admin|null
      */
-    public static function getByUsername(string $username, string $password): ?Admin
+    public static function getByUsername(string $username): ?Admin
     {
 
         $matchThese = ['username' => $username];
 
         Database::getConnection();
 
-        $admins = Admin::where($matchThese)->first();
+        $admin = Admin::where($matchThese)->first();
 
-        if ($admins === null) {
+        if ($admin === null) {
             return null;
         } else {
-            $passwordHashedDB = $admins->Password;
-
-            $passwordHashed = hash('sha256', $password);
-
-            if ($passwordHashed === $passwordHashedDB) {
-                return $admins;
-            }
-
-            return null;
+            return $admin;
         }
     }
 

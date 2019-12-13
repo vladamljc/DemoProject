@@ -4,6 +4,7 @@ namespace Catalog\Services;
 
 use Catalog\Data\Models\Admin;
 use Catalog\Data\Repositories\AdminRepository;
+use Catalog\Utility\Session;
 
 /**
  * Class LoginService
@@ -18,30 +19,42 @@ class LoginService
      *
      * @param string $username
      * @param string $password
+     * @param bool $check
      *
-     * @return Admin|null
+     * @return bool
      */
-    public static function login(string $username, string $password): ?Admin
+    public static function login(string $username, string $password, bool $check): bool
     {
         /**
          * @var Admin $admin
          */
-        $admin = AdminRepository::getByUsername($username, $password);
+        $admin = AdminRepository::getByUsername($username);
 
         if ($admin === null) {
-            return null;
-        } else {
-            session_start();
-            $_SESSION['username'] = $username;
-            $_SESSION['password'] = $password;
-
-            if (isset($_POST['checkboxLoggedIn'])) {
-                $cookieName = 'cookieAdmin';
-                setcookie($cookieName, $username);
-            }
-
-            return $admin;
+            return false;
         }
+
+        $passwordHashedDB = $admin->Password;
+
+        $passwordHashed = hash('sha256', $password);
+
+        if ($passwordHashed !== $passwordHashedDB) {
+            return false;
+        }
+
+        Session::startSession();
+        Session::setParameter('username', $username);
+        Session::setParameter('password', $password);
+
+        if ($check === true) {
+            $cookieName = 'cookieAdmin';
+            setcookie($cookieName, $username, time() + 60 * 60 * 24 * 365, '/');
+        } else {
+            $cookieName = 'cookieAdmin';
+            setcookie($cookieName, '', time() - 3600);
+        }
+
+        return true;
     }
 
 }

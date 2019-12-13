@@ -31,6 +31,11 @@ class Request
     private $uri;
 
     /**
+     * @var array
+     */
+    private $post;
+
+    /**
      * @return string
      */
     public function getBody(): string
@@ -108,6 +113,22 @@ class Request
     public function setUri(string $uri): void
     {
         $this->uri = $uri;
+    }
+
+    /**
+     * @return array
+     */
+    public function getPost(): array
+    {
+        return $this->post;
+    }
+
+    /**
+     * @param array $post
+     */
+    public function setPost(array $post): void
+    {
+        $this->post = $post;
     }
 
 }

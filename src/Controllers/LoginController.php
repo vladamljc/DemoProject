@@ -2,10 +2,11 @@
 
 namespace Catalog\Controllers;
 
-use Catalog\Data\Models\Admin;
 use Catalog\Http\HTMLResponse;
+use Catalog\Http\Request;
 use Catalog\Http\Response;
 use Catalog\Services\LoginService;
+use Catalog\Utility\Session;
 use Catalog\Utility\ViewRenderer;
 
 /**
@@ -30,26 +31,29 @@ class LoginController extends FrontController
         return $response;
     }
 
-    public function loginAction(): Response
+    public function loginAction(Request $request): Response
     {
-        $username = $_POST['user'];
-        $password = $_POST['pass'];
+        $username = $request->getPost()['user'];
+        $password = $request->getPost()['pass'];
+        $keepLogged = $request->getPost()['checkboxLoggedIn'];
+        $flagMakeCookie = false;
 
-        /**
-         * @var Admin $admin
-         */
-        $admin = LoginService::login($username, $password);
-        if ($admin !== null) {
+        if (isset($keepLogged)) {
+            $flagMakeCookie = true;
+        } else {
+            $flagMakeCookie = false;
+        }
+
+        $logInSuccessful = LoginService::login($username, $password, $flagMakeCookie);
+        if ($logInSuccessful === true) {
             $redirect = new DashboardController();
 
             return $redirect->index();
         }
 
-        if ($admin === null) {
-            session_unset();
-            session_destroy();
-            $cookieName = 'cookieAdmin';
-            setcookie($cookieName, '', time() - 3600);
+        if ($logInSuccessful === false) {
+
+            Session::endSession();
 
             return $this->renderLoginForm();
         }

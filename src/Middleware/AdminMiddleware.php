@@ -4,6 +4,7 @@ namespace Catalog\Middleware;
 
 use Catalog\Exceptions\MiddlewarePassFailed;
 use Catalog\Http\Request;
+use Catalog\Utility\Session;
 
 /**
  * Class AdminMiddleware
@@ -22,10 +23,10 @@ class AdminMiddleware extends Middleware
      */
     public function handle(Request $request): void
     {
-        session_start();
 
+        Session::startSession();
         if (!isset($_COOKIE['cookieAdmin'])) {
-            if (!isset($_SESSION['username'], $_SESSION['password'])) {
+            if (Session::isSessionActive() === false) {
                 throw new MiddlewarePassFailed('USER ACTION NOT AUTHORIZED!');
             }
         }

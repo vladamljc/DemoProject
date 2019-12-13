@@ -16,7 +16,7 @@ class RequestFactory
     public static function makeNewRequest(): Request
     {
         $request = new Request();
-
+        $request->setPost($_POST);
         $request->setBody(file_get_contents('php://input'));
 
         $request->setHeaders(HeaderLoader::getallheaders());
