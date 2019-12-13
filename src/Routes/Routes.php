@@ -33,9 +33,9 @@ class Routes
      */
     public static function getRoute(Request $request): Route
     {
-        foreach (self::$registeredRoutes as $current_route) {
-            if (($current_route->getMethod() === $request->getMethod()) && ($current_route->getUri() === $request->getUri())) {
-                return $current_route;
+        foreach (self::$registeredRoutes as $currentRoute) {
+            if (($currentRoute->getMethod() === $request->getMethod()) && ($currentRoute->getUri() === $request->getUri())) {
+                return $currentRoute;
             }
         }
         throw new RouteNotFoundException('RouteNotFoundException: route does not exist...');
