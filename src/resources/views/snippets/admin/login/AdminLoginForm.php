@@ -15,7 +15,7 @@
 
         <tr>
             <td>
-                user name
+                <label for="user">user</label>
             </td>
 
             <td>
@@ -26,7 +26,7 @@
 
         <tr>
             <td>
-                password
+                <label for="pass">password</label>
             </td>
 
             <td>
@@ -36,8 +36,9 @@
         </tr>
 
         <tr>
-            <td colspan="2" align="center">
-                <input type="checkbox" name="checkboxLoggedIn">keep me logged in</input>
+            <td colspan="2">
+                <label for="checkboxLoggedIn">keep me logged in</label>
+                <input type="checkbox" name="checkboxLoggedIn"/>
                 <button type="submit" value="loginButton" name="loginButton">Log in</button>
             </td>
         </tr>
