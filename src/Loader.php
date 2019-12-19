@@ -2,6 +2,8 @@
 
 namespace Catalog;
 
+use Catalog\Database\Database;
+
 /**
  * Class Loader
  */
@@ -13,6 +15,8 @@ class Loader
      */
     public function load(): void
     {
+        Database::getConnection();
+
         $relativeRoute = LOAD_ROUTES_FROM;
         $routesDirectory = __DIR__ . '/../' . trim($relativeRoute, '/') . '/';
 

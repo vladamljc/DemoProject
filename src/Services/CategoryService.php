@@ -17,31 +17,18 @@ class CategoryService
      * @param string $Code
      * @param string $Title
      * @param $Description
+     * @param int $ParentId
      */
-    public static function addCategory(string $Code, string $Title, $Description): void
+    public static function addCategory(string $Code, string $Title, $Description, $ParentId = -1): void
     {
         $newCategory = new Category();
         $newCategory->Code = $Code;
         $newCategory->Title = $Title;
         $newCategory->Description = $Description;
+        $newCategory->ParentId = $ParentId;
         CategoryRepository::addCategory($newCategory);
     }
 
-    /**
-     * @param string $Code
-     * @param string $Title
-     * @param $Description
-     * @param $IdParent
-     */
-    public static function addSubCategory(string $Code, string $Title, $Description, $IdParent)
-    {
-        $newCategory = new Category();
-        $newCategory->Code = $Code;
-        $newCategory->Title = $Title;
-        $newCategory->Description = $Description;
-        $newCategory->ParentId = $IdParent;
-        CategoryRepository::addSubCategory($newCategory);
-    }
 
     /**
      * @param int $Id

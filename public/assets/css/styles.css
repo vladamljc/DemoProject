@@ -67,3 +67,56 @@
     font-size: 30px;
     margin: 0;
 }
+
+.category-tree-view {
+    width: 50%;
+    height: 100%;
+    float: left;
+}
+
+.category-form-view {
+    width: 50%;
+    height: 100%;
+    float: left;
+}
+
+.category-form-view table {
+    width: 80%;
+    height: 100%;
+}
+
+.category-tree-view table {
+    width: 100%;
+    height: 100%;
+}
+
+.category-form-view select, input {
+    width: 100%;
+}
+
+.header-form-style {
+    background: lightskyblue;
+    width: 100%;
+}
+
+.description {
+    height: 300px;
+    width: 100%;
+}
+
+.button-width-1 {
+    width: 100px;
+}
+
+.button-width-2 {
+    width: 140px;
+}
+
+.tr-height-1 {
+    height: 90%;
+}
+
+.tr-height-2 {
+    height: 10%;
+}
+

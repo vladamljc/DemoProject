@@ -3,7 +3,6 @@
 namespace Catalog\Data\Repositories;
 
 use Catalog\Data\Models\Category;
-use Catalog\Database\Database;
 
 /**
  * Class CategoryRepository
@@ -20,7 +19,6 @@ class CategoryRepository
      */
     public static function addCategory(Category $newCategory): void
     {
-        Database::getConnection();
         $newCategory->save();
     }
 
@@ -31,7 +29,6 @@ class CategoryRepository
      */
     public static function addSubCategory(Category $newSubCategory): void
     {
-        Database::getConnection();
         $newSubCategory->save();
     }
 
@@ -42,7 +39,6 @@ class CategoryRepository
      */
     public static function deleteCategory(int $Id): void
     {
-        Database::getConnection();
         $category = Category::find($Id);
         $category->delete();
     }
@@ -57,12 +53,21 @@ class CategoryRepository
      */
     public static function editCategory(int $Id, string $Code, string $Title, $Description): void
     {
-        Database::getConnection();
         $category = Category::find($Id);
         $category->Code = $Code;
         $category->Title = $Title;
         $category->Description;
         $category->save();
+    }
+
+    /**
+     * returns all Categories from database
+     *
+     * @return array|null
+     */
+    public static function getCategories(): ?array
+    {
+        return Category::all();
     }
 
 }

@@ -19,3 +19,8 @@ Routes::add(new Route(DashboardController::class, 'index', '/admin', 'GET', [Adm
 Routes::add(new Route(CategoryController::class, 'index', '/admin/categories', 'GET', [AdminMiddleware::class]));
 
 Routes::add(new Route(ProductController::class, 'index', '/admin/products', 'GET', [AdminMiddleware::class]));
+
+Routes::add(new Route(CategoryController::class, 'addCategory', '/admin/categories', 'POST', [AdminMiddleware::class]));
+
+Routes::add(new Route(CategoryController::class, 'showAddNewCategoryForm', '/admin/categories/addFormView', 'GET',
+    [AdminMiddleware::class]));

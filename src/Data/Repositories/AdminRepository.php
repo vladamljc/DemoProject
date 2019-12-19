@@ -3,7 +3,6 @@
 namespace Catalog\Data\Repositories;
 
 use Catalog\Data\Models\Admin;
-use Catalog\Database\Database;
 
 /**
  * Class AdminRepository
@@ -25,8 +24,6 @@ class AdminRepository
     {
 
         $matchThese = ['username' => $username];
-
-        Database::getConnection();
 
         $admin = Admin::where($matchThese)->first();
 

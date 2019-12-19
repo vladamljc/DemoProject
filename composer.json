@@ -10,8 +10,9 @@
     ],
     "minimum-stability": "dev",
     "require": {
-        "illuminate/database": "^7.0",
-        "ext-apache": "*"
+      "illuminate/database": "^7.0",
+      "ext-apache": "*",
+      "ext-json": "*"
     },
     "autoload": {
         "psr-4": {
