@@ -9,8 +9,6 @@ use Catalog\Http\RequestFactory;
 use Catalog\Loader;
 use Catalog\Services\Dispatcher;
 
-session_start();
-
 $loader = new Loader();
 $loader->load();
 
@@ -27,4 +25,3 @@ if ($response instanceof ExceptionResponse) {
     }
 }
 echo $response->getContent();
-

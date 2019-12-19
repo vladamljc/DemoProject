@@ -24,8 +24,6 @@ class Session
     {
         session_unset();
         session_destroy();
-        $cookieName = 'cookieAdmin';
-        setcookie($cookieName, '', time() - 3600);
     }
 
     /**
@@ -44,7 +42,7 @@ class Session
      *
      * @return bool
      */
-    public static function isSessionActive(): bool
+    public static function areSessionParametersSet(): bool
     {
         if (!isset($_SESSION['username'], $_SESSION['password'])) {
             return false;

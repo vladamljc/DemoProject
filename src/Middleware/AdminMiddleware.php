@@ -23,10 +23,8 @@ class AdminMiddleware extends Middleware
      */
     public function handle(Request $request): void
     {
-
-        Session::startSession();
         if (!isset($_COOKIE['cookieAdmin'])) {
-            if (Session::isSessionActive() === false) {
+            if (Session::areSessionParametersSet() === false) {
                 throw new MiddlewarePassFailed('USER ACTION NOT AUTHORIZED!');
             }
         }

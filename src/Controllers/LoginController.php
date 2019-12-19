@@ -6,6 +6,7 @@ use Catalog\Http\HTMLResponse;
 use Catalog\Http\Request;
 use Catalog\Http\Response;
 use Catalog\Services\LoginService;
+use Catalog\Utility\CookieManagement;
 use Catalog\Utility\Session;
 use Catalog\Utility\ViewRenderer;
 
@@ -54,6 +55,7 @@ class LoginController extends FrontController
         if ($logInSuccessful === false) {
 
             Session::endSession();
+            CookieManagement::removeCookie('cookieAdmin');
 
             return $this->renderLoginForm();
         }

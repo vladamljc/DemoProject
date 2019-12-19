@@ -28,7 +28,7 @@ class Database
      *
      * @return Capsule
      */
-    public static function getConnection(): Capsule
+    public static function connect(): Capsule
     {
         if (self::$capsule === null) {
             self::$capsule = self::getCapsuleInstance();

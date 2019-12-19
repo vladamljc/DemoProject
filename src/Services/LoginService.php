@@ -4,6 +4,7 @@ namespace Catalog\Services;
 
 use Catalog\Data\Models\Admin;
 use Catalog\Data\Repositories\AdminRepository;
+use Catalog\Utility\CookieManagement;
 use Catalog\Utility\Session;
 
 /**
@@ -23,7 +24,7 @@ class LoginService
      *
      * @return bool
      */
-    public static function login(string $username, string $password, bool $check): bool
+    public static function login(string $username, string $password, bool $stayLoggedIn): bool
     {
         /**
          * @var Admin $admin
@@ -38,20 +39,18 @@ class LoginService
 
         $passwordHashed = hash('sha256', $password);
 
-        if ($passwordHashed !== $passwordHashedDB) {
+        if (!hash_equals($passwordHashed, $passwordHashedDB)) {
             return false;
         }
 
-        Session::startSession();
         Session::setParameter('username', $username);
         Session::setParameter('password', $password);
 
-        if ($check === true) {
-            $cookieName = 'cookieAdmin';
-            setcookie($cookieName, $username, time() + 60 * 60 * 24 * 365, '/');
+        $cookieName = 'cookieAdmin';
+        if ($stayLoggedIn === true) {
+            CookieManagement::setCookie($username, $cookieName);
         } else {
-            $cookieName = 'cookieAdmin';
-            setcookie($cookieName, '', time() - 3600);
+            CookieManagement::removeCookie($cookieName);
         }
 
         return true;
