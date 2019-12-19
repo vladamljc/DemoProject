@@ -19,7 +19,7 @@
             </td>
 
             <td>
-                <input type="text" name="user"/>
+                <input type="text" name="user" id="user"/>
             </td>
 
         </tr>
@@ -30,7 +30,7 @@
             </td>
 
             <td>
-                <input type="password" name="pass"/>
+                <input type="password" name="pass" id="pass"/>
             </td>
 
         </tr>
@@ -38,7 +38,7 @@
         <tr>
             <td colspan="2">
                 <label for="checkboxLoggedIn">keep me logged in</label>
-                <input type="checkbox" name="checkboxLoggedIn"/>
+                <input type="checkbox" name="checkboxLoggedIn" id="checkboxLoggedIn"/>
                 <button type="submit" value="loginButton" name="loginButton">Log in</button>
             </td>
         </tr>
