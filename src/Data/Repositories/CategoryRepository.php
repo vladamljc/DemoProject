@@ -3,6 +3,8 @@
 namespace Catalog\Data\Repositories;
 
 use Catalog\Data\Models\Category;
+use Exception;
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * Class CategoryRepository
@@ -23,19 +25,11 @@ class CategoryRepository
     }
 
     /**
-     * method used to add new SubCategory to database
-     *
-     * @param Category $newSubCategory
-     */
-    public static function addSubCategory(Category $newSubCategory): void
-    {
-        $newSubCategory->save();
-    }
-
-    /**
      * method used to delete Category from database
      *
      * @param int $Id
+     *
+     * @throws Exception
      */
     public static function deleteCategory(int $Id): void
     {
@@ -49,9 +43,9 @@ class CategoryRepository
      * @param int $Id
      * @param string $Code
      * @param string $Title
-     * @param $Description
+     * @param string $Description
      */
-    public static function editCategory(int $Id, string $Code, string $Title, $Description): void
+    public static function editCategory(int $Id, string $Code, string $Title, string $Description): void
     {
         $category = Category::find($Id);
         $category->Code = $Code;
@@ -61,13 +55,41 @@ class CategoryRepository
     }
 
     /**
-     * returns all Categories from database
+     * returns all root Categories from database
      *
-     * @return array|null
+     * @return Collection
      */
-    public static function getCategories(): ?array
+    public static function getRootCategories(): Collection
+    {
+        return Category::where('ParentId', -1)->get();
+    }
+
+    /**
+     * @param string $categoryTitle
+     *
+     * @return Category|null
+     */
+    public static function getCategoryByTitle(string $categoryTitle): ?Category
+    {
+        return Category::where('Title', $categoryTitle)->first();
+    }
+
+    /**
+     * @return Collection|null
+     */
+    public static function getAllCategories(): ?Collection
     {
         return Category::all();
+    }
+
+    /**
+     * @param int $categoryId
+     *
+     * @return Category|null
+     */
+    public static function getCategoryById(int $categoryId): ?Category
+    {
+        return Category::where('Id', $categoryId)->first();
     }
 
 }

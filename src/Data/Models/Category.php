@@ -2,6 +2,7 @@
 
 namespace Catalog\Data\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -13,6 +14,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property int Code
  * @property string Title
  * @property string Description
+ * @method static Builder where(string $string, int $param)
+ * @method static self find(int $Id)
  */
 class Category extends Model
 {

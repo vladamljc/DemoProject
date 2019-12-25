@@ -4,6 +4,8 @@ namespace Catalog\Services;
 
 use Catalog\Data\Models\Category;
 use Catalog\Data\Repositories\CategoryRepository;
+use Exception;
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * Class CategoryService
@@ -29,7 +31,6 @@ class CategoryService
         CategoryRepository::addCategory($newCategory);
     }
 
-
     /**
      * @param int $Id
      * @param string $Code
@@ -43,9 +44,47 @@ class CategoryService
 
     /**
      * @param int $Id
+     *
+     * @throws Exception
      */
     public static function deleteCategory(int $Id): void
     {
         CategoryRepository::deleteCategory($Id);
+    }
+
+    /**
+     * @return Collection|null
+     */
+    public static function getRootCategories(): ?Collection
+    {
+        return CategoryRepository::getRootCategories();
+    }
+
+    /**
+     * @param string $categoryTitle
+     *
+     * @return Category|null
+     */
+    public static function getCategoryByTitle(string $categoryTitle): ?Category
+    {
+        return CategoryRepository::getCategoryByTitle($categoryTitle);
+    }
+
+    /**
+     * @return Collection|null
+     */
+    public static function getAllCategories(): ?Collection
+    {
+        return CategoryRepository::getAllCategories();
+    }
+
+    /**
+     * @param int $categoryId
+     *
+     * @return Category|null
+     */
+    public static function getCategoryById(int $categoryId): ?Category
+    {
+        return CategoryRepository::getCategoryById($categoryId);
     }
 }

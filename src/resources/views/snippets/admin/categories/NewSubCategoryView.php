@@ -1,6 +1,6 @@
 <table>
     <tr>
-        <th colspan="2" class="header-form-style">Create category</th>
+        <th colspan="2" class="header-form-style">Create sub-category</th>
     </tr>
 
     <tr>
@@ -17,9 +17,7 @@
             <label for="parent">Parent category:</label>
         </td>
         <td>
-            <select name="parent" disabled>
-                <option>Root</option>
-            </select>
+            <input type="text" name="parent" id="parent" value="<?php echo $data[0] ?>" disabled>
         </td>
     </tr>
 
@@ -48,7 +46,7 @@
 
         <td>
             <button type="reset" class="button-width-1" onclick="resetFields()">Cancel</button>
-            <button type="submit" class="button-width-1" onclick="addCategory()">OK</button>
+            <button type="submit" class="button-width-1" onclick="addSubCategory()">OK</button>
         </td>
     </tr>
 

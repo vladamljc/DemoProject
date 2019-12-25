@@ -24,3 +24,12 @@ Routes::add(new Route(CategoryController::class, 'addCategory', '/admin/categori
 
 Routes::add(new Route(CategoryController::class, 'showAddNewCategoryForm', '/admin/categories/addFormView', 'GET',
     [AdminMiddleware::class]));
+
+Routes::add(new Route(CategoryController::class, 'showAddNewSubCategoryForm', '/admin/categories/addSubFormView',
+    'GET'));
+Routes::add(new Route(CategoryController::class, 'addSubCategory', '/admin/categories/addSubCategory', 'POST'));
+Routes::add(new Route(CategoryController::class, 'showSelectedCategory', '/admin/categories/showSelectedCategory',
+    'GET', [AdminMiddleware::class]));
+
+Routes::add(new Route(CategoryController::class, 'getAllCategories', '/admin/categories/getJSON', 'GET',
+    [AdminMiddleware::class]));

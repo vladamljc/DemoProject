@@ -32,18 +32,22 @@ class LoginController extends FrontController
         return $response;
     }
 
+    /**
+     * @param Request $request
+     *
+     * @return Response
+     */
     public function loginAction(Request $request): Response
     {
         $username = $request->getPost()['user'];
         $password = $request->getPost()['pass'];
-        $keepLogged = $request->getPost()['checkboxLoggedIn'];
-        $flagMakeCookie = false;
 
-        if (isset($keepLogged)) {
-            $flagMakeCookie = true;
-        } else {
-            $flagMakeCookie = false;
+        if (!isset($username, $password)) {
+            return $this->renderLoginForm();
         }
+
+        $keepLogged = $request->getPost()['checkboxLoggedIn'];
+        $flagMakeCookie = isset($keepLogged);
 
         $logInSuccessful = LoginService::login($username, $password, $flagMakeCookie);
         if ($logInSuccessful === true) {
@@ -52,13 +56,10 @@ class LoginController extends FrontController
             return $redirect->index();
         }
 
-        if ($logInSuccessful === false) {
+        Session::endSession();
+        CookieManagement::removeCookie('cookieAdmin');
 
-            Session::endSession();
-            CookieManagement::removeCookie('cookieAdmin');
-
-            return $this->renderLoginForm();
-        }
+        return $this->renderLoginForm();
     }
 
 }
