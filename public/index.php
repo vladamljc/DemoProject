@@ -26,3 +26,4 @@ if ($response instanceof ExceptionResponse) {
 }
 echo $response->getContent();
 
+

@@ -8,6 +8,7 @@ use Catalog\Http\JSONResponse;
 use Catalog\Http\Response;
 use Catalog\Services\CategoryService;
 use Catalog\Utility\ViewRenderer;
+use Exception;
 
 /**
  * Class CategoryController
@@ -36,6 +37,7 @@ class CategoryController extends AdminController
      */
     public function addCategory(): Response
     {
+        header('Content-Type: application/json');
         $data = json_decode(file_get_contents('php://input'), true);
 
         if (empty($data['title']) || empty($data['code']) || empty($data['description'])) {
@@ -56,6 +58,7 @@ class CategoryController extends AdminController
      */
     public function addSubCategory(): Response
     {
+        header('Content-Type: application/json');
         $data = json_decode(file_get_contents('php://input'), true);
 
         if (empty($data['title']) || empty($data['code']) || empty($data['description']) || empty($data['parent'])) {
@@ -102,12 +105,14 @@ class CategoryController extends AdminController
     public function showAddNewSubCategoryForm(): Response
     {
 
-        $parentTitle = $_GET['parentTitle'];
+        $parentCode = $_GET['parentCode'];
+
+        $categoryModel = CategoryService::getCategoryByCode($parentCode);
 
         $response = new HTMLResponse();
 
         $response->setContent(ViewRenderer::render('views/snippets/admin/categories/NewSubCategoryView',
-            [$parentTitle]));
+            [$categoryModel->Title, $categoryModel->Code]));
 
         return $response;
     }
@@ -152,6 +157,7 @@ class CategoryController extends AdminController
      */
     public function getAllCategories(): JSONResponse
     {
+        header('Content-Type: application/json');
         $categoriesModel = CategoryService::getAllCategories();
         $categories = array();
 
@@ -161,6 +167,90 @@ class CategoryController extends AdminController
         }
 
         return new JSONResponse($categories);
+    }
+
+    /**
+     * returns form for editing selected category
+     *
+     * @return Response
+     */
+    public function getEditCategoryView(): Response
+    {
+        $receivedCode = $_GET['code'];
+        $receivedParent = $_GET['parent'];
+
+        $categoryModel = CategoryService::getCategoryByCode($receivedCode);
+        $categoryData = array();
+        $categoryData[] = $categoryModel->Title;
+
+        $allCategories = array();
+        $allCategoriesModels = CategoryService::getAllCategories();
+        foreach ($allCategoriesModels as $model) {
+            $allCategories[] = $model->Title;
+        }
+        $allCategories[] = 'root';
+
+        $categoryData[] = $allCategories;
+
+        $categoryData[] = $categoryModel->Code;
+        $categoryData[] = $categoryModel->Description;
+
+        $categoryData[] = $receivedParent;
+        $categoryData[] = $categoryModel->Id;
+
+        $response = new HTMLResponse();
+
+        $response->setContent(ViewRenderer::render('views/snippets/admin/categories/EditCategoryView',
+            $categoryData));
+
+        return $response;
+    }
+
+    /**
+     * method to edit/update category/subcategory
+     *
+     * @return Response
+     */
+    public function editCategory(): Response
+    {
+        header('Content-Type: application/json');
+        $data = json_decode(file_get_contents('php://input'), true);
+        if (empty($data['title']) || empty($data['code']) || empty($data['parent']) || empty($data['description']) || empty($data['id'])) {
+            return new JSONResponse(['success' => false, 'message' => 'Updating category/subcategory failed...']);
+        }
+        $titleEdited = $data['title'];
+        $codeEdited = $data['code'];
+        $parentEdited = $data['parent'];
+        $descriptionEdited = $data['description'];
+        $categoryId = $data['id'];
+
+        $modelCategory = CategoryService::getCategoryByTitle($parentEdited);
+
+        CategoryService::editCategory($categoryId, $codeEdited, $titleEdited, $descriptionEdited, $modelCategory->Id);
+
+        return new JSONResponse(['success' => true, 'message' => 'Category edited successfully...']);
+    }
+
+    /**
+     * method to delete category from database
+     *
+     * @return Response
+     * @throws Exception
+     */
+    public function deleteCategory(): Response
+    {
+
+        $data = json_decode(file_get_contents('php://input'), true);
+
+        if (empty($data['code'])) {
+            return new JSONResponse(['success' => false, 'message' => 'Failed to delete category...']);
+        }
+
+        $categoryModel = CategoryService::getCategoryByCode($data['code']);
+
+        CategoryService::deleteCategory($categoryModel->Id);
+
+        return new JSONResponse(['success' => true, 'message' => 'Category deleted successfully...']);
     }
 
 }

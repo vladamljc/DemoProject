@@ -47,8 +47,8 @@
         </td>
 
         <td>
-            <button type="reset" class="button-width-1" onclick="resetFields()">Cancel</button>
-            <button type="submit" class="button-width-1" onclick="addCategory()">OK</button>
+            <button type="reset" class="button-width-1" onclick="Catalog.adminCategory.resetFields()">Cancel</button>
+            <button type="submit" class="button-width-1" onclick="Catalog.adminCategory.addCategory()">OK</button>
         </td>
     </tr>
 

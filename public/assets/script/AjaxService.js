@@ -6,19 +6,19 @@ var Catalog = window.Catalog || {};
         let me = this;
 
         me.post = function (uri, json) {
-            call('POST', uri, json);
+            return call('POST', uri, json);
         };
 
         me.get = function (uri) {
-            return call('GET', uri);
+            return call('GET', uri, '');
         };
 
         me.put = function (uri, json) {
             return call('PUT', uri, json);
         };
 
-        me.delete = function (method, uri) {
-            return call('DELETE', uri);
+        me.delete = function (uri, json) {
+            return call('DELETE', uri, json);
         };
 
         let call = function (method, uri, json) {
@@ -37,12 +37,26 @@ var Catalog = window.Catalog || {};
                 };
 
                 req.onerror = function () {
-                    reject('greska!');
+                    reject('ERROR HAPPENED!');
                 };
 
                 if (method === 'POST') {
                     req.setRequestHeader("Content-Type", "application/json");
-                    req.send(JSON.stringify(json));
+                    req.send(json);
+                }
+
+                if (method === 'GET') {
+                    req.send();
+                }
+
+                if (method === 'PUT') {
+                    req.setRequestHeader("Content-Type", "application/json");
+                    req.send(json);
+                }
+
+                if (method === 'DELETE') {
+                    req.setRequestHeader("Content-Type", "application/json");
+                    req.send(json);
                 }
             });
         }
@@ -52,10 +66,4 @@ var Catalog = window.Catalog || {};
 })();
 
 
-// let promise = Catalog.ajaxService.post('catalog.test/admin/categories');
-// promise.then(function (p) {
-//         console.log(p);
-//     },
-//     function (p2) {
-//         console.log(p2);
-//     });
+

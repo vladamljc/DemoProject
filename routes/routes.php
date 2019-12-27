@@ -20,7 +20,7 @@ Routes::add(new Route(CategoryController::class, 'index', '/admin/categories', '
 
 Routes::add(new Route(ProductController::class, 'index', '/admin/products', 'GET', [AdminMiddleware::class]));
 
-Routes::add(new Route(CategoryController::class, 'addCategory', '/admin/categories', 'POST', [AdminMiddleware::class]));
+Routes::add(new Route(CategoryController::class, 'addCategory', '/admin/categories', 'POST'));
 
 Routes::add(new Route(CategoryController::class, 'showAddNewCategoryForm', '/admin/categories/addFormView', 'GET',
     [AdminMiddleware::class]));
@@ -31,5 +31,12 @@ Routes::add(new Route(CategoryController::class, 'addSubCategory', '/admin/categ
 Routes::add(new Route(CategoryController::class, 'showSelectedCategory', '/admin/categories/showSelectedCategory',
     'GET', [AdminMiddleware::class]));
 
-Routes::add(new Route(CategoryController::class, 'getAllCategories', '/admin/categories/getJSON', 'GET',
+Routes::add(new Route(CategoryController::class, 'getAllCategories', '/admin/categories/getJSON', 'GET'));
+
+Routes::add(new Route(CategoryController::class, 'getEditCategoryView', '/admin/categories/getEditCategoryView', 'GET',
     [AdminMiddleware::class]));
+Routes::add(new Route(CategoryController::class, 'editCategory', '/admin/categories/editCategory', 'PUT'));
+Routes::add(new Route(CategoryController::class, 'deleteCategory', '/admin/categories/deleteCategory', 'DELETE'));
+
+
+

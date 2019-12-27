@@ -45,9 +45,17 @@
         </td>
 
         <td>
-            <button type="reset" class="button-width-1" onclick="">DELETE</button>
-            <button type="submit" class="button-width-1" onclick="">EDIT</button>
+            <button type="reset" class="button-width-1" onclick="Catalog.adminCategory.confirmDelete()">DELETE</button>
+            <button type="submit" class="button-width-1" onclick="Catalog.adminCategory.showEditCategoryForm()">EDIT
+            </button>
         </td>
+    </tr>
+
+    <tr>
+        <td>
+            <p id="feedbackMessage"></p>
+        </td>
+
     </tr>
 
 

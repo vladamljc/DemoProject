@@ -19,10 +19,11 @@
 
         <tr class="tr-height-2">
             <td>
-                <button type="button" class="button-width-2" onclick="showAddFormView()" id="buttonAddRootCategory">
+                <button type="button" class="button-width-2" onclick="Catalog.adminCategory.showAddFormView()"
+                        id="buttonAddRootCategory">
                     Add root category
                 </button>
-                <button type="button" class="button-width-2" onclick="showAddSubFormView()"
+                <button type="button" class="button-width-2" onclick="Catalog.adminCategory.showAddSubFormView()"
                         id="buttonAddSubCategory">Add subcategory
                 </button>
             </td>

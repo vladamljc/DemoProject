@@ -33,8 +33,7 @@ class CategoryRepository
      */
     public static function deleteCategory(int $Id): void
     {
-        $category = Category::find($Id);
-        $category->delete();
+          Category::where('Id', $Id)->delete();
     }
 
     /**
@@ -44,14 +43,16 @@ class CategoryRepository
      * @param string $Code
      * @param string $Title
      * @param string $Description
+     * @param int $IdParent
      */
-    public static function editCategory(int $Id, string $Code, string $Title, string $Description): void
+    public static function editCategory(int $Id, string $Code, string $Title, string $Description, int $IdParent): void
     {
-        $category = Category::find($Id);
-        $category->Code = $Code;
-        $category->Title = $Title;
-        $category->Description;
-        $category->save();
+        Category::where('Id', $Id)->update([
+            'Code' => $Code,
+            'Title' => $Title,
+            'Description' => $Description,
+            'ParentId' => $IdParent
+        ]);
     }
 
     /**
@@ -90,6 +91,16 @@ class CategoryRepository
     public static function getCategoryById(int $categoryId): ?Category
     {
         return Category::where('Id', $categoryId)->first();
+    }
+
+    /**
+     * @param string $code
+     *
+     * @return Category|null
+     */
+    public static function getCategoryByCode(string $code): ?Category
+    {
+        return Category::where('Code', $code)->first();
     }
 
 }

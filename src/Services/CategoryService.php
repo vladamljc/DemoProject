@@ -35,11 +35,12 @@ class CategoryService
      * @param int $Id
      * @param string $Code
      * @param string $Title
-     * @param $Description
+     * @param string $Description
+     * @param int $IdParent
      */
-    public static function editCategory(int $Id, string $Code, string $Title, $Description)
+    public static function editCategory(int $Id, string $Code, string $Title, string $Description, int $IdParent): void
     {
-        CategoryRepository::editCategory($Id, $Code, $Title, $Description);
+        CategoryRepository::editCategory($Id, $Code, $Title, $Description, $IdParent);
     }
 
     /**
@@ -87,4 +88,15 @@ class CategoryService
     {
         return CategoryRepository::getCategoryById($categoryId);
     }
+
+    /**
+     * @param string $code
+     *
+     * @return Category|null
+     */
+    public static function getCategoryByCode(string $code): ?Category
+    {
+        return CategoryRepository::getCategoryByCode($code);
+    }
+
 }

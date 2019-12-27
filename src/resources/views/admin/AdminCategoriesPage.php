@@ -2,12 +2,14 @@
 <head>
     <title>Dashboard</title>
     <link rel="stylesheet" type="text/css" href="/assets/css/styles.css">
-    <script type="text/javascript" src="/AjaxService.js"></script>
-    <script type="text/javascript" src="/TreeView.js"></script>
-    <script type="text/javascript" src="/AdminCategories.js"></script>
+    <script type="text/javascript" src="/assets/script/AjaxService.js"></script>
+    <script type="text/javascript" src="/assets/script/tree/TreeView.js"></script>
+    <script type="text/javascript" src="/assets/script/category/CategoryProxy.js"></script>
+    <script type="text/javascript" src="/assets/script/category/AdminCategory.js"></script>
+    <script type="text/javascript" src="/assets/script/tree/TreeViewProxy.js"></script>
 </head>
 
-<body onload="getCategoryJSON()">
+<body onload="Catalog.adminCategory.getCategoryJSON()">
 
 
 <h1>Admin categories page</h1>
