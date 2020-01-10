@@ -11,9 +11,9 @@ var Catalog = window.Catalog || {};
             let descriptionName = document.getElementById('description').value;
 
             let categoryObj = {
-                'title': titleName,
-                'code': codeName,
-                'description': descriptionName
+                title: titleName,
+                code: codeName,
+                description: descriptionName
             };
 
             let categoryString = JSON.stringify(categoryObj);

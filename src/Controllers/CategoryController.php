@@ -3,8 +3,10 @@
 namespace Catalog\Controllers;
 
 use Catalog\Data\CategoryBean;
+use Catalog\Data\DTO\Category;
 use Catalog\Http\HTMLResponse;
 use Catalog\Http\JSONResponse;
+use Catalog\Http\Request;
 use Catalog\Http\Response;
 use Catalog\Services\CategoryService;
 use Catalog\Utility\ViewRenderer;
@@ -31,28 +33,32 @@ class CategoryController extends AdminController
     }
 
     /**
-     * method to add new Category to database
+     * Method to add new Category to database
+     *
+     * @param Request $request
      *
      * @return Response
      */
-    public function addCategory(): Response
+    public function addCategory(Request $request): Response
     {
-        header('Content-Type: application/json');
-        $data = json_decode(file_get_contents('php://input'), true);
+        $data = json_decode($request->getBody());
 
-        if (empty($data['title']) || empty($data['code']) || empty($data['description'])) {
+        if (empty($data->title) || empty($data->code) || empty($data->description)) {
             return new JSONResponse([
                 'success' => false,
-                'message' => 'Some of inputted fields maybe empty or json objects might be null...'
+                'message' => 'Some of inputted fields maybe empty or json objects might be null.'
             ]);
         }
-        CategoryService::addCategory($data['code'], $data['title'], $data['description']);
 
-        return new JSONResponse(['success' => true, 'message' => 'New category added...']);
+        $categoryDTO = new Category(-1, $data->code, $data->title, $data->description);
+
+        CategoryService::addCategory($categoryDTO);
+
+        return new JSONResponse(['success' => true, 'message' => 'New category added.']);
     }
 
     /**
-     * method to add new sub-category to database
+     * Method to add new sub-category to database
      *
      * @return Response
      */
@@ -64,16 +70,16 @@ class CategoryController extends AdminController
         if (empty($data['title']) || empty($data['code']) || empty($data['description']) || empty($data['parent'])) {
             return new JSONResponse([
                 'success' => false,
-                'message' => 'Some of inputted fields maybe empty or json objects might be null...'
+                'message' => 'Some of inputted fields maybe empty or json objects might be null.'
             ]);
         }
 
         $categoryModel = CategoryService::getCategoryByTitle($data['parent']);
 
         if ($categoryModel === null) {
-            return JSONResponse([
+            return new JSONResponse([
                 'success' => false,
-                'message' => 'Sub-category parent does not exist'
+                'message' => 'Sub-category parent does not exist.'
             ]);
         }
 
@@ -81,11 +87,11 @@ class CategoryController extends AdminController
 
         CategoryService::addCategory($data['code'], $data['title'], $data['description'], $categoryId);
 
-        return new JSONResponse(['success' => true, 'message' => 'New sub-category added...']);
+        return new JSONResponse(['success' => true, 'message' => 'New sub-category added.']);
     }
 
     /**
-     * method that is used to render login form when user clicked on the button to add new category
+     * Method that is used to render login form when user clicked on the button to add new category
      *
      * @return Response
      */
@@ -98,7 +104,7 @@ class CategoryController extends AdminController
     }
 
     /**
-     * returns form for adding new sub-category
+     * Returns form for adding new sub-category
      *
      * @return Response
      */
@@ -118,7 +124,7 @@ class CategoryController extends AdminController
     }
 
     /**
-     * returns selected category information
+     * Returns selected category information
      *
      * @return Response
      */
@@ -151,7 +157,7 @@ class CategoryController extends AdminController
     }
 
     /**
-     * returns all categories from database
+     * Returns all categories from database
      *
      * @return JSONResponse
      */
@@ -170,7 +176,7 @@ class CategoryController extends AdminController
     }
 
     /**
-     * returns form for editing selected category
+     * Returns form for editing selected category
      *
      * @return Response
      */
@@ -207,7 +213,7 @@ class CategoryController extends AdminController
     }
 
     /**
-     * method to edit/update category/subcategory
+     * Method to edit/update category/subcategory
      *
      * @return Response
      */
@@ -228,11 +234,11 @@ class CategoryController extends AdminController
 
         CategoryService::editCategory($categoryId, $codeEdited, $titleEdited, $descriptionEdited, $modelCategory->Id);
 
-        return new JSONResponse(['success' => true, 'message' => 'Category edited successfully...']);
+        return new JSONResponse(['success' => true, 'message' => 'Category edited successfully.']);
     }
 
     /**
-     * method to delete category from database
+     * Method to delete category from database
      *
      * @return Response
      * @throws Exception
@@ -243,14 +249,14 @@ class CategoryController extends AdminController
         $data = json_decode(file_get_contents('php://input'), true);
 
         if (empty($data['code'])) {
-            return new JSONResponse(['success' => false, 'message' => 'Failed to delete category...']);
+            return new JSONResponse(['success' => false, 'message' => 'Failed to delete category.']);
         }
 
         $categoryModel = CategoryService::getCategoryByCode($data['code']);
 
         CategoryService::deleteCategory($categoryModel->Id);
 
-        return new JSONResponse(['success' => true, 'message' => 'Category deleted successfully...']);
+        return new JSONResponse(['success' => true, 'message' => 'Category deleted successfully.']);
     }
 
 }

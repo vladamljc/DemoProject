@@ -2,6 +2,7 @@
 
 namespace Catalog\Services;
 
+use Catalog\Data\DTO\Category as CategoryDTO;
 use Catalog\Data\Models\Category;
 use Catalog\Data\Repositories\CategoryRepository;
 use Exception;
@@ -16,19 +17,11 @@ class CategoryService
 {
 
     /**
-     * @param string $Code
-     * @param string $Title
-     * @param $Description
-     * @param int $ParentId
+     * @param CategoryDTO $categoryDTO
      */
-    public static function addCategory(string $Code, string $Title, $Description, $ParentId = -1): void
+    public static function addCategory(CategoryDTO $categoryDTO): void
     {
-        $newCategory = new Category();
-        $newCategory->Code = $Code;
-        $newCategory->Title = $Title;
-        $newCategory->Description = $Description;
-        $newCategory->ParentId = $ParentId;
-        CategoryRepository::addCategory($newCategory);
+        CategoryRepository::addCategory($categoryDTO);
     }
 
     /**

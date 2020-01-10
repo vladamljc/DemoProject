@@ -2,6 +2,7 @@
 
 namespace Catalog\Data\Repositories;
 
+use Catalog\Data\DTO\Category as CategoryDTO;
 use Catalog\Data\Models\Category;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
@@ -17,10 +18,15 @@ class CategoryRepository
     /**
      * method used to add new Category to database
      *
-     * @param Category $newCategory
+     * @param CategoryDTO $categoryDTO
      */
-    public static function addCategory(Category $newCategory): void
+    public static function addCategory(CategoryDTO $categoryDTO): void
     {
+        $newCategory = new Category();
+        $newCategory->Title = $categoryDTO->getTitle();
+        $newCategory->Code = $categoryDTO->getCode();
+        $newCategory->Description = $categoryDTO->getDescription();
+        $newCategory->ParentId = $categoryDTO->getParentId();
         $newCategory->save();
     }
 
@@ -33,7 +39,7 @@ class CategoryRepository
      */
     public static function deleteCategory(int $Id): void
     {
-          Category::where('Id', $Id)->delete();
+        Category::where('Id', $Id)->delete();
     }
 
     /**

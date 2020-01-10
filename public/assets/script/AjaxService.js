@@ -5,8 +5,8 @@ var Catalog = window.Catalog || {};
     function AjaxService() {
         let me = this;
 
-        me.post = function (uri, json) {
-            return call('POST', uri, json);
+        me.post = function (uri, json, headerType = '', formData = null) {
+            return call('POST', uri, json, headerType, formData);
         };
 
         me.get = function (uri) {
@@ -21,11 +21,22 @@ var Catalog = window.Catalog || {};
             return call('DELETE', uri, json);
         };
 
-        let call = function (method, uri, json) {
+        me.postUploadImage = function (uri, data) {
+            return call('POST_UPLOAD_IMAGE', uri, null, '', data);
+        };
+
+        let call = function (method, uri, json, headerType, formData) {
             return new Promise(function (resolve, reject) {
 
                 let req = new XMLHttpRequest();
-                req.open(method, uri);
+
+                if (method === 'POST_UPLOAD_IMAGE') {
+                    req.open('POST', uri);
+                } else {
+                    req.open(method, uri);
+                }
+
+                if (headerType === 'jsonHeader') req.setRequestHeader("Content-Type", "application/json");
 
                 req.onload = function () {
 
@@ -41,7 +52,6 @@ var Catalog = window.Catalog || {};
                 };
 
                 if (method === 'POST') {
-                    req.setRequestHeader("Content-Type", "application/json");
                     req.send(json);
                 }
 
@@ -50,14 +60,17 @@ var Catalog = window.Catalog || {};
                 }
 
                 if (method === 'PUT') {
-                    req.setRequestHeader("Content-Type", "application/json");
                     req.send(json);
                 }
 
                 if (method === 'DELETE') {
-                    req.setRequestHeader("Content-Type", "application/json");
                     req.send(json);
                 }
+
+                if (method === 'POST_UPLOAD_IMAGE') {
+                    req.send(formData);
+                }
+
             });
         }
     }
