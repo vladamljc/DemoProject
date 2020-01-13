@@ -16,11 +16,11 @@ class Request
     /**
      * @var array
      */
-    private $headers;
+    private $headers = [];
     /**
      * @var array
      */
-    private $query;
+    private $query = [];
     /**
      * @var string
      */
@@ -33,7 +33,12 @@ class Request
     /**
      * @var array
      */
-    private $post;
+    private $post = [];
+
+    /**
+     * @var array
+     */
+    private $files = [];
 
     /**
      * @return string
@@ -129,6 +134,22 @@ class Request
     public function setPost(array $post): void
     {
         $this->post = $post;
+    }
+
+    /**
+     * @return array
+     */
+    public function getFiles(): array
+    {
+        return $this->files;
+    }
+
+    /**
+     * @param array $files
+     */
+    public function setFiles(array $files): void
+    {
+        $this->files = $files;
     }
 
 }

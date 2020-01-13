@@ -65,11 +65,22 @@ class CategoryService
     }
 
     /**
-     * @return Collection|null
+     * @return array|null
      */
-    public static function getAllCategories(): ?Collection
+    public static function getAllCategories(): ?array
     {
-        return CategoryRepository::getAllCategories();
+        $categories = CategoryRepository::getAllCategories();
+        if (!empty($categories)) {
+            $categoriesDTO = array();
+            foreach ($categories as $category) {
+                $categoriesDTO[] = new CategoryDTO($category->ParentId, $category->Code, $category->Title,
+                    $category->Description, $category->Id);
+            }
+
+            return $categoriesDTO;
+        }
+
+        return null;
     }
 
     /**
@@ -77,19 +88,28 @@ class CategoryService
      *
      * @return Category|null
      */
-    public static function getCategoryById(int $categoryId): ?Category
+    public static function getCategoryById(int $categoryId): ?CategoryDTO
     {
-        return CategoryRepository::getCategoryById($categoryId);
+        $category = CategoryRepository::getCategoryById($categoryId);
+
+        return new CategoryDTO($category->ParentId, $category->Code, $category->Title, $category->Description,
+            $category->Id);
     }
 
     /**
      * @param string $code
      *
-     * @return Category|null
+     * @return CategoryDTO|null
      */
-    public static function getCategoryByCode(string $code): ?Category
+    public static function getCategoryByCode(string $code): ?CategoryDTO
     {
-        return CategoryRepository::getCategoryByCode($code);
+        $category = CategoryRepository::getCategoryByCode($code);
+        if (empty($category)) {
+            return null;
+        } else {
+            return new CategoryDTO($category->ParentId, $category->Code, $category->Title, $category->Description,
+                $category->Id);
+        }
     }
 
 }

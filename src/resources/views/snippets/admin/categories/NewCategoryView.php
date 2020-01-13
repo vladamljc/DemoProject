@@ -17,8 +17,8 @@
             <label for="parent">Parent category:</label>
         </td>
         <td>
-            <select name="parent" disabled>
-                <option>Root</option>
+            <select name="parent" id="parent" disabled>
+                <option value="-1">Root</option>
             </select>
         </td>
     </tr>

@@ -14,15 +14,15 @@ var Catalog = window.Catalog || {};
             for (let i = 0; i < location.length; i++) {
                 parent = location[i];
 
-                object[parent.Id] = parent;
-                object[parent.Id]["children"] = [];
+                object[parent.id] = parent;
+                object[parent.id]["children"] = [];
             }
 
             for (let Id in object) {
                 if (object.hasOwnProperty(Id)) {
                     child = object[Id];
-                    if (child.ParentId && object[child["ParentId"]]) {
-                        object[child["ParentId"]]["children"].push(child);
+                    if (child.parentId && object[child["parentId"]]) {
+                        object[child["parentId"]]["children"].push(child);
                     } else {
                         tree.push(child);
                     }
@@ -46,10 +46,9 @@ var Catalog = window.Catalog || {};
                     }
 
                     let selectedCategoryWindow = document.getElementById("idFormWindow");
-                    let request = new XMLHttpRequest();
-                    let titleName = items.Title;
+                    let code = items.code;
 
-                    let target = "/admin/categories/showSelectedCategory" + "?paramTitle=" + titleName;
+                    let target = "/admin/categories/showSelectedCategory" + "?code=" + code;
 
                     Catalog.treeProxy.showSelectedCategory(target).then(function (response) {
                         selectedCategoryWindow.innerHTML = response;
@@ -64,7 +63,7 @@ var Catalog = window.Catalog || {};
             });
 
 
-            treeNode.innerText = items.Title;
+            treeNode.innerText = items.title;
 
 
             if (items.children && items.children.length) {

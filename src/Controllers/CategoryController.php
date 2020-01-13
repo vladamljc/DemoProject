@@ -2,8 +2,9 @@
 
 namespace Catalog\Controllers;
 
-use Catalog\Data\CategoryBean;
+use Catalog\Data\Beans\CategoryBean;
 use Catalog\Data\DTO\Category;
+use Catalog\Data\Validation\CategoryValidator;
 use Catalog\Http\HTMLResponse;
 use Catalog\Http\JSONResponse;
 use Catalog\Http\Request;
@@ -33,7 +34,7 @@ class CategoryController extends AdminController
     }
 
     /**
-     * Method to add new Category to database
+     * Method to add new Category to database.
      *
      * @param Request $request
      *
@@ -43,55 +44,26 @@ class CategoryController extends AdminController
     {
         $data = json_decode($request->getBody());
 
-        if (empty($data->title) || empty($data->code) || empty($data->description)) {
+        if (CategoryValidator::validateInputCategory($data->title, $data->code, $data->description, $data->parentId)) {
             return new JSONResponse([
                 'success' => false,
-                'message' => 'Some of inputted fields maybe empty or json objects might be null.'
+                'message' => CategoryValidator::getErrorMessage()
             ]);
         }
 
-        $categoryDTO = new Category(-1, $data->code, $data->title, $data->description);
-
+        if ($data->parentId === '-1') {
+            $categoryDTO = new Category(-1, $data->code, $data->title, $data->description);
+        } else {
+            $parentCategoryDTO = CategoryService::getCategoryById($data->parentId);
+            $categoryDTO = new Category($parentCategoryDTO->getId(), $data->code, $data->title, $data->description);
+        }
         CategoryService::addCategory($categoryDTO);
 
         return new JSONResponse(['success' => true, 'message' => 'New category added.']);
     }
 
     /**
-     * Method to add new sub-category to database
-     *
-     * @return Response
-     */
-    public function addSubCategory(): Response
-    {
-        header('Content-Type: application/json');
-        $data = json_decode(file_get_contents('php://input'), true);
-
-        if (empty($data['title']) || empty($data['code']) || empty($data['description']) || empty($data['parent'])) {
-            return new JSONResponse([
-                'success' => false,
-                'message' => 'Some of inputted fields maybe empty or json objects might be null.'
-            ]);
-        }
-
-        $categoryModel = CategoryService::getCategoryByTitle($data['parent']);
-
-        if ($categoryModel === null) {
-            return new JSONResponse([
-                'success' => false,
-                'message' => 'Sub-category parent does not exist.'
-            ]);
-        }
-
-        $categoryId = $categoryModel->Id;
-
-        CategoryService::addCategory($data['code'], $data['title'], $data['description'], $categoryId);
-
-        return new JSONResponse(['success' => true, 'message' => 'New sub-category added.']);
-    }
-
-    /**
-     * Method that is used to render login form when user clicked on the button to add new category
+     * Method that is used to render login form when user clicks on the button to add new category.
      *
      * @return Response
      */
@@ -104,79 +76,91 @@ class CategoryController extends AdminController
     }
 
     /**
-     * Returns form for adding new sub-category
+     * Returns form for adding new sub-category.
+     *
+     * @param Request $request
      *
      * @return Response
      */
-    public function showAddNewSubCategoryForm(): Response
+    public function showAddNewSubCategoryForm(Request $request): Response
     {
+        $parentCode = $request->getQuery()['parentCode'];
 
-        $parentCode = $_GET['parentCode'];
-
-        $categoryModel = CategoryService::getCategoryByCode($parentCode);
+        $categoryDTO = CategoryService::getCategoryByCode($parentCode);
 
         $response = new HTMLResponse();
 
-        $response->setContent(ViewRenderer::render('views/snippets/admin/categories/NewSubCategoryView',
-            [$categoryModel->Title, $categoryModel->Code]));
+        if ($categoryDTO) {
 
-        return $response;
-    }
+            $response->setContent(ViewRenderer::render('views/snippets/admin/categories/NewSubCategoryView',
+                ['title' => $categoryDTO->getTitle(), 'id' => $categoryDTO->getId()]));
 
-    /**
-     * Returns selected category information
-     *
-     * @return Response
-     */
-    public function showSelectedCategory(): Response
-    {
-
-        $titleName = $_GET['paramTitle'];
-
-        $response = new HTMLResponse();
-
-        $categoryModel = CategoryService::getCategoryByTitle($titleName);
-
-        $categoryData = array();
-        $categoryData[] = $categoryModel->Id;
-        $categoryData[] = $categoryModel->Title;
-
-        if ($categoryModel->ParentId === -1) {
-            $categoryData[] = 'root';
-        } else {
-            $parent = CategoryService::getCategoryById($categoryModel->ParentId);
-            $categoryData[] = $parent->Title;
+            return $response;
         }
 
-        $categoryData[] = $categoryModel->Description;
-        $categoryData[] = $categoryModel->Code;
-
-        $response->setContent(ViewRenderer::render('views/snippets/admin/categories/SelectedCategory', $categoryData));
+        $response->setContent('Error loading sub-category form');
 
         return $response;
     }
 
     /**
-     * Returns all categories from database
+     * Returns selected category information.
+     *
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function showSelectedCategory(Request $request): Response
+    {
+        $code = $request->getQuery()['code'];
+
+        $response = new HTMLResponse();
+
+        $categoryDTO = CategoryService::getCategoryByCode($code);
+
+        if ($categoryDTO) {
+            $categoryData = array();
+            $categoryData['id'] = $categoryDTO->getId();
+            $categoryData['title'] = $categoryDTO->getTitle();
+
+            if ($categoryDTO->getParentId() === -1) {
+                $categoryData['parentTitle'] = 'Root';
+            } else {
+                $parentCategoryDTO = CategoryService::getCategoryById($categoryDTO->getParentId());
+                $categoryData['parentTitle'] = $parentCategoryDTO->getTitle();
+            }
+
+            $categoryData['description'] = $categoryDTO->getDescription();
+            $categoryData['code'] = $categoryDTO->getCode();
+
+            $response->setContent(ViewRenderer::render('views/snippets/admin/categories/SelectedCategory',
+                $categoryData));
+        }
+
+        return $response;
+    }
+
+    /**
+     * Returns all categories from database.
      *
      * @return JSONResponse
      */
     public function getAllCategories(): JSONResponse
     {
-        header('Content-Type: application/json');
-        $categoriesModel = CategoryService::getAllCategories();
+        $categoriesDTO = CategoryService::getAllCategories();
         $categories = array();
 
-        foreach ($categoriesModel as $model) {
-            $obj = new CategoryBean($model->Id, $model->Title, $model->ParentId);
-            $categories[] = $obj;
+        foreach ($categoriesDTO as $category) {
+            $categoryBean = new CategoryBean($category->getId(), $category->getTitle(), $category->getParentId(),
+                $category->getCode());
+            $categories[] = $categoryBean;
         }
 
         return new JSONResponse($categories);
     }
 
     /**
-     * Returns form for editing selected category
+     * Returns form for editing selected category.
      *
      * @return Response
      */

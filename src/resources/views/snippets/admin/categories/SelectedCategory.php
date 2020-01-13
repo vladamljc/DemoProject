@@ -8,7 +8,7 @@
             <label for="title">Title:</label>
         </td>
         <td>
-            <input type="text" name="title" id="title" value="<?php echo $data[1] ?>" disabled>
+            <input type="text" name="title" id="title" value="<?php echo $data['title'] ?>" disabled>
         </td>
     </tr>
 
@@ -17,7 +17,7 @@
             <label for="parent">Parent category:</label>
         </td>
         <td>
-            <input type="text" name="parent" id="parent" value="<?php echo $data[2] ?> " disabled>
+            <input type="text" name="parent" id="parent" value="<?php echo $data['parentTitle'] ?> " disabled>
         </td>
     </tr>
 
@@ -26,7 +26,7 @@
             <label for="code">Code:</label>
         </td>
         <td>
-            <input type="text" name="code" id="code" value="<?php echo $data[4] ?>" disabled>
+            <input type="text" name="code" id="code" value="<?php echo $data['code'] ?>" disabled>
         </td>
     </tr>
 
@@ -35,7 +35,8 @@
             <label for="Description" class="description">Description:</label>
         </td>
         <td>
-            <textarea name="description" class="description" id="description" disabled><?php echo $data[3] ?></textarea>
+            <textarea name="description" class="description" id="description"
+                      disabled><?php echo $data['description'] ?></textarea>
         </td>
     </tr>
 

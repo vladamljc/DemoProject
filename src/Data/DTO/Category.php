@@ -27,19 +27,26 @@ class Category
     private $description;
 
     /**
+     * @var int
+     */
+    private $id;
+
+    /**
      * Category constructor.
      *
      * @param int $parentId
      * @param string $code
      * @param string $title
      * @param string $description
+     * @param int $id
      */
-    public function __construct(int $parentId, string $code, string $title, string $description)
+    public function __construct(int $parentId, string $code, string $title, string $description, int $id = 0)
     {
         $this->parentId = $parentId;
         $this->code = $code;
         $this->title = $title;
         $this->description = $description;
+        $this->id = $id;
     }
 
     /**
@@ -72,6 +79,14 @@ class Category
     public function getDescription(): string
     {
         return $this->description;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
     }
 
 }

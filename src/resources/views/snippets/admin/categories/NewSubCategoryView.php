@@ -17,8 +17,9 @@
             <label for="parent">Parent category:</label>
         </td>
         <td>
-            <input type="text" name="parent" id="parent" value="<?php echo $data[0] ?>" data-*="<?php $data[1] ?>"
-                   disabled>
+            <select name="parent" id="parent">
+                <option value="<?php echo $data['id']; ?>" disabled selected><?php echo $data['title'] ?></option>
+            </select>
         </td>
     </tr>
 
@@ -47,7 +48,7 @@
 
         <td>
             <button type="reset" class="button-width-1" onclick="Catalog.adminCategory.resetFields()">Cancel</button>
-            <button type="submit" class="button-width-1" onclick="Catalog.adminCategory.addSubCategory()">OK</button>
+            <button type="submit" class="button-width-1" onclick="Catalog.adminCategory.addCategory()">OK</button>
         </td>
     </tr>
 

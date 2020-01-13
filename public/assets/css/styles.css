@@ -29,6 +29,7 @@
     height: 800px;
     float: left;
     background: #f1f1f1;
+    padding: 15px;
 }
 
 .center-screen {
@@ -154,3 +155,126 @@
 .disabled {
 
 }
+
+.products-top {
+    height: 15%;
+    width: 100%;
+    float: top;
+}
+
+.product-middle {
+    height: 70%;
+    width: 100%;
+    float: top;
+}
+
+.product-bottom {
+    height: 15%;
+    width: 100%;
+    float: top;
+}
+
+.product-buttons {
+    width: 100%;
+    height: 50%;
+}
+
+.new-product-header {
+    width: 100%;
+    height: 10%;
+    background-color: red;
+}
+
+.new-product-data {
+    width: 50%;
+    height: 90%;
+    background-color: chocolate;
+}
+
+.new-product-image {
+    width: 50%;
+    height: 90%;
+    background-color: blueviolet;
+}
+
+.add-new-product {
+    width: 100%;
+    height: 100%;
+}
+
+.product-form-data {
+    width: 30%;
+    height: 100%;
+    float: left;
+    padding: 20px;
+}
+
+.product-upload-image {
+    width: 50%;
+    height: 100%;
+    float: left;
+    padding: 20px;
+}
+
+.product-info {
+    width: 100%;
+    float: left;
+    margin-bottom: 10px;
+    font-size: 20px;
+}
+
+.product-info-area {
+    width: 100%;
+    float: left;
+    height: 120px;
+    margin-bottom: 10px;
+    font-size: 20px;
+}
+
+.product-info input, textarea, select {
+    width: 70%;
+}
+
+.block-left {
+    width: 25%;
+    float: left;
+}
+
+.block-right {
+    width: 75%;
+    float: left;
+}
+
+.block-right textarea {
+    height: 100px;
+}
+
+.image-text {
+    width: 15%;
+    height: 300px;
+    float: left;
+}
+
+.image-area {
+    width: 50%;
+    height: 300px;
+    float: left;
+}
+
+.upload-button {
+    width: 65%;
+    float: left;
+}
+
+.upload-button-style {
+    width: 120px;
+    float: right;
+    margin-top: 5px;
+}
+
+.save-button-style {
+    width: 100px !important;
+    float: left;
+    margin-top: 5px;
+}
+

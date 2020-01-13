@@ -9,11 +9,13 @@ var Catalog = window.Catalog || {};
             let titleName = document.getElementById('title').value;
             let codeName = document.getElementById('code').value;
             let descriptionName = document.getElementById('description').value;
+            let parentId = document.getElementById('parent').value;
 
             let categoryObj = {
                 title: titleName,
                 code: codeName,
-                description: descriptionName
+                description: descriptionName,
+                parentId: parentId
             };
 
             let categoryString = JSON.stringify(categoryObj);
@@ -25,44 +27,13 @@ var Catalog = window.Catalog || {};
                 document.getElementById('feedbackMessage').innerText = err.message;
             });
 
-            document.getElementById('treeContainer').innerHTML = "";
-            Catalog.adminCategory.getCategoryJSON();
-        };
-
-
-        me.addSubCategory = function () {
-            document.getElementById('treeContainer').classList.add('disabled');
-            let title = document.getElementById('title').value;
-            let code = document.getElementById('code').value;
-            let description = document.getElementById('description').value;
-            let parent = document.getElementById('parent').value;
-
-            let subCategoryObj = {
-                'title': title,
-                'code': code,
-                'parent': parent,
-                'description': description
-            };
-
-            let subCategoryString = JSON.stringify(subCategoryObj);
-
-            Catalog.categoryProxy.addSubCategory(subCategoryString).then(function (response) {
-                let messageJSON = JSON.parse(response);
-                document.getElementById('feedbackMessage').innerText = messageJSON.message;
-
-            }).catch(function (err) {
-                document.getElementById('feedbackMessage').value = err.message;
-            });
-
             if (document.getElementById('treeContainer').classList.contains('disabled')) {
                 document.getElementById('treeContainer').classList.remove('disabled');
             }
 
             document.getElementById('treeContainer').innerHTML = "";
             Catalog.adminCategory.getCategoryJSON();
-
         };
-
 
         me.resetFields = function () {
             if (document.getElementById('treeContainer').classList.contains('disabled')) {
@@ -83,8 +54,8 @@ var Catalog = window.Catalog || {};
 
         me.showAddFormView = function () {
             let newCategoryWindow = document.getElementById("idFormWindow");
-            newCategoryWindow.innerHTML = Catalog.categoryProxy.showAddFormView().then(function (response) {
-                newCategoryWindow.innerHTML = response;
+            Catalog.categoryProxy.showAddFormView().then(function (response) {
+                newCategoryWindow.innerHTML = newCategoryWindow.innerHTML = response;
             }).catch(function (err) {
                 return "error";
             });

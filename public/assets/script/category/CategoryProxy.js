@@ -13,10 +13,6 @@ var Catalog = window.Catalog || {};
             return Catalog.ajaxService.get('/admin/categories/addFormView');
         };
 
-        me.addSubCategory = function (data) {
-            return Catalog.ajaxService.post('/admin/categories/addSubCategory', data);
-        };
-
         me.showAddSubFormView = function (uri) {
             return Catalog.ajaxService.get(uri);
         };
