@@ -4,7 +4,7 @@ namespace Catalog\Data\Repositories;
 
 use Catalog\Data\DTO\Category as CategoryDTO;
 use Catalog\Data\Models\Category;
-use Exception;
+use Catalog\Data\Models\Product;
 use Illuminate\Database\Eloquent\Collection;
 
 /**
@@ -33,13 +33,11 @@ class CategoryRepository
     /**
      * method used to delete Category from database
      *
-     * @param int $Id
-     *
-     * @throws Exception
+     * @param CategoryDTO $categoryDTO
      */
-    public static function deleteCategory(int $Id): void
+    public static function deleteCategory(CategoryDTO $categoryDTO): void
     {
-        Category::where('Id', $Id)->delete();
+        Category::where('Id', $categoryDTO->getId())->delete();
     }
 
     /**
@@ -107,6 +105,16 @@ class CategoryRepository
     public static function getCategoryByCode(string $code): ?Category
     {
         return Category::where('Code', $code)->first();
+    }
+
+    /**
+     * @param CategoryDTO $category
+     *
+     * @return bool
+     */
+    public static function hasProducts(CategoryDTO $category): bool
+    {
+        return Product::where('CategoryId', $category->getId())->exists();
     }
 
 }

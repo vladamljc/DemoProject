@@ -37,13 +37,19 @@ class CategoryService
     }
 
     /**
-     * @param int $Id
+     * @param CategoryDTO $categoryDTO
      *
+     * @return bool
      * @throws Exception
      */
-    public static function deleteCategory(int $Id): void
+    public static function deleteCategory(CategoryDTO $categoryDTO): bool
     {
-        CategoryRepository::deleteCategory($Id);
+        if (CategoryRepository::hasProducts($categoryDTO)) {
+            return true;
+        }
+        CategoryRepository::deleteCategory($categoryDTO);
+
+        return false;
     }
 
     /**

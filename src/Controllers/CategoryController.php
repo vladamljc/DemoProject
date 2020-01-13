@@ -224,21 +224,28 @@ class CategoryController extends AdminController
     /**
      * Method to delete category from database
      *
+     * @param Request $request
+     *
      * @return Response
      * @throws Exception
      */
-    public function deleteCategory(): Response
+    public function deleteCategory(Request $request): Response
     {
 
-        $data = json_decode(file_get_contents('php://input'), true);
+        $data = json_decode($request->getBody());
 
-        if (empty($data['code'])) {
+        if (empty($data->code)) {
             return new JSONResponse(['success' => false, 'message' => 'Failed to delete category.']);
         }
 
-        $categoryModel = CategoryService::getCategoryByCode($data['code']);
+        $categoryDTO = CategoryService::getCategoryByCode($data->code);
 
-        CategoryService::deleteCategory($categoryModel->Id);
+        if (CategoryService::deleteCategory($categoryDTO)) {
+            return new JSONResponse([
+                'success' => false,
+                'message' => 'There are products with this category. Can not delete.'
+            ]);
+        }
 
         return new JSONResponse(['success' => true, 'message' => 'Category deleted successfully.']);
     }
