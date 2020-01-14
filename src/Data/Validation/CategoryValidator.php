@@ -107,5 +107,33 @@ class CategoryValidator extends Validator
         return self::$errorMessage;
     }
 
+    /**
+     * Method that validates entries from edit category form
+     *
+     * @param string $title
+     * @param string $code
+     * @param string $description
+     * @param string $parentCode
+     * @param int $idCategory
+     *
+     * @return string
+     */
+    public static function validateEditCategory(
+        string $title,
+        string $code,
+        string $description,
+        string $parentCode,
+        int $idCategory
+    ): string {
+        self::$errorMessage = '';
+        if (empty($title) || empty($code) || empty($description) || empty($parentCode) || empty($idCategory)) {
+            self::$errorMessage .= 'Some or all of inputted fields are empty ';
+        }
+        if (strlen($title) > 45 || strlen($code) > 45 || strlen($description) > 250) {
+            self::$errorMessage .= 'Inputted values longer than required ';
+        }
+
+        return self::$errorMessage;
+    }
 }
 

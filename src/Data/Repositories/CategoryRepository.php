@@ -43,19 +43,15 @@ class CategoryRepository
     /**
      * method used to edit/update Category in database
      *
-     * @param int $Id
-     * @param string $Code
-     * @param string $Title
-     * @param string $Description
-     * @param int $IdParent
+     * @param CategoryDTO $categoryDTO
      */
-    public static function editCategory(int $Id, string $Code, string $Title, string $Description, int $IdParent): void
+    public static function editCategory(CategoryDTO $categoryDTO): void
     {
-        Category::where('Id', $Id)->update([
-            'Code' => $Code,
-            'Title' => $Title,
-            'Description' => $Description,
-            'ParentId' => $IdParent
+        Category::where('Id', $categoryDTO->getId())->update([
+            'Code' => $categoryDTO->getCode(),
+            'Title' => $categoryDTO->getTitle(),
+            'Description' => $categoryDTO->getDescription(),
+            'ParentId' => $categoryDTO->getParentId()
         ]);
     }
 

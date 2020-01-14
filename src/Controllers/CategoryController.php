@@ -3,6 +3,7 @@
 namespace Catalog\Controllers;
 
 use Catalog\Data\Beans\CategoryBean;
+use Catalog\Data\Beans\EditCategoryBean;
 use Catalog\Data\DTO\Category;
 use Catalog\Data\Validation\CategoryValidator;
 use Catalog\Http\HTMLResponse;
@@ -162,31 +163,34 @@ class CategoryController extends AdminController
     /**
      * Returns form for editing selected category.
      *
+     * @param Request $request
+     *
      * @return Response
      */
-    public function getEditCategoryView(): Response
+    public function getEditCategoryView(Request $request): Response
     {
-        $receivedCode = $_GET['code'];
-        $receivedParent = $_GET['parent'];
+        $receivedCode = $request->getQuery()['code'];
 
-        $categoryModel = CategoryService::getCategoryByCode($receivedCode);
+        $categoryDTO = CategoryService::getCategoryByCode($receivedCode);
         $categoryData = array();
-        $categoryData[] = $categoryModel->Title;
+        $categoryData['title'] = $categoryDTO->getTitle();
 
         $allCategories = array();
-        $allCategoriesModels = CategoryService::getAllCategories();
-        foreach ($allCategoriesModels as $model) {
-            $allCategories[] = $model->Title;
+        $allCategoriesDTO = CategoryService::getAllCategories();
+        foreach ($allCategoriesDTO as $model) {
+            $categoryBean = new EditCategoryBean($model->getCode(), $model->getTitle(), $model->getId());
+            $allCategories[] = $categoryBean;
         }
-        $allCategories[] = 'root';
+        $categoryRootBean = new EditCategoryBean('-1', 'Root', -1);
+        $allCategories[] = $categoryRootBean;
 
-        $categoryData[] = $allCategories;
+        $categoryData['parentTitles'] = $allCategories;
 
-        $categoryData[] = $categoryModel->Code;
-        $categoryData[] = $categoryModel->Description;
+        $categoryData['code'] = $categoryDTO->getCode();
+        $categoryData['description'] = $categoryDTO->getDescription();
 
-        $categoryData[] = $receivedParent;
-        $categoryData[] = $categoryModel->Id;
+        $categoryData['id'] = $categoryDTO->getId();
+        $categoryData['parentId'] = $categoryDTO->getParentId();
 
         $response = new HTMLResponse();
 
@@ -199,24 +203,33 @@ class CategoryController extends AdminController
     /**
      * Method to edit/update category/subcategory
      *
+     * @param Request $request
+     *
      * @return Response
      */
-    public function editCategory(): Response
+    public function editCategory(Request $request): Response
     {
-        header('Content-Type: application/json');
-        $data = json_decode(file_get_contents('php://input'), true);
-        if (empty($data['title']) || empty($data['code']) || empty($data['parent']) || empty($data['description']) || empty($data['id'])) {
-            return new JSONResponse(['success' => false, 'message' => 'Updating category/subcategory failed...']);
+        $data = json_decode($request->getBody());
+
+        if (CategoryValidator::validateEditCategory($data->title, $data->code, $data->description, $data->parentCode,
+            $data->idCategory)) {
+            return new JSONResponse(['success' => false, 'message' => CategoryValidator::getErrorMessage()]);
         }
-        $titleEdited = $data['title'];
-        $codeEdited = $data['code'];
-        $parentEdited = $data['parent'];
-        $descriptionEdited = $data['description'];
-        $categoryId = $data['id'];
 
-        $modelCategory = CategoryService::getCategoryByTitle($parentEdited);
+        if ($data->parentCode !== '-1') {
+            $parentCategoryDTO = CategoryService::getCategoryByCode($data->parentCode);
+            $idParentCategory = $parentCategoryDTO->getId();
+        } else {
+            $idParentCategory = '-1';
+        }
 
-        CategoryService::editCategory($categoryId, $codeEdited, $titleEdited, $descriptionEdited, $modelCategory->Id);
+        $categoryOriginal = CategoryService::getCategoryById($data->idCategory);
+        $idCategoryOriginal = $categoryOriginal->getId();
+
+        $categoryUpdated = new Category($idParentCategory, $data->code, $data->title, $data->description,
+            $idCategoryOriginal);
+
+        CategoryService::editCategory($categoryUpdated);
 
         return new JSONResponse(['success' => true, 'message' => 'Category edited successfully.']);
     }

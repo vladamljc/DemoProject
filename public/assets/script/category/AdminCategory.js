@@ -84,9 +84,8 @@ var Catalog = window.Catalog || {};
             document.getElementById('treeContainer').classList.add('disabled');
             let editCategoryWindow = document.getElementById("idFormWindow");
             let code = document.getElementById('code').value;
-            let parent = document.getElementById('parent').value;
 
-            let targetPath = "/admin/categories/getEditCategoryView?code=" + code + "&parent=" + parent;
+            let targetPath = "/admin/categories/getEditCategoryView?code=" + code;
 
             Catalog.categoryProxy.getEditCategoryView(targetPath).then(function (response) {
                 editCategoryWindow.innerHTML = response;
@@ -101,17 +100,17 @@ var Catalog = window.Catalog || {};
                 document.getElementById('treeContainer').classList.remove('disabled');
             }
 
-            let titleEdited = document.getElementById('title').value;
-            let codeEdited = document.getElementById('code').value;
-            let descriptionEdited = document.getElementById('description').value;
-            let parentEdited = document.getElementById('parent').value;
+            let title = document.getElementById('title').value;
+            let code = document.getElementById('code').value;
+            let description = document.getElementById('description').value;
+            let parent = document.getElementById('parent').value;
 
             let editCategoryObj = {
-                "title": titleEdited,
-                "code": codeEdited,
-                "parent": parentEdited,
-                "description": descriptionEdited,
-                "id": idCategory
+                "title": title,
+                "code": code,
+                "parentCode": parent,
+                "description": description,
+                "idCategory": idCategory
             };
 
             let editCategoryObjString = JSON.stringify(editCategoryObj);

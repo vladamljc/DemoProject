@@ -17,6 +17,8 @@ class CategoryService
 {
 
     /**
+     *Method to add new category/subcategory to database
+     *
      * @param CategoryDTO $categoryDTO
      */
     public static function addCategory(CategoryDTO $categoryDTO): void
@@ -25,15 +27,13 @@ class CategoryService
     }
 
     /**
-     * @param int $Id
-     * @param string $Code
-     * @param string $Title
-     * @param string $Description
-     * @param int $IdParent
+     * Method to edit category in database
+     *
+     * @param CategoryDTO $categoryDTO
      */
-    public static function editCategory(int $Id, string $Code, string $Title, string $Description, int $IdParent): void
+    public static function editCategory(CategoryDTO $categoryDTO): void
     {
-        CategoryRepository::editCategory($Id, $Code, $Title, $Description, $IdParent);
+        CategoryRepository::editCategory($categoryDTO);
     }
 
     /**

@@ -8,7 +8,7 @@
             <label for="title">Title:</label>
         </td>
         <td>
-            <input type="text" name="title" id="title" value="<?php echo $data[0] ?>" required>
+            <input type="text" name="title" id="title" value="<?php echo $data['title'] ?>" required>
         </td>
     </tr>
 
@@ -19,11 +19,11 @@
         <td>
             <select name="parent" id="parent">
                 <?php
-                foreach ($data[1] as $parent) {
-                    if ($parent === $data[4]) {
-                        echo '<option selected>' . $parent . '</option>';
+                foreach ($data['parentTitles'] as $parent) {
+                    if ($parent->id === $data['parentId']) {
+                        echo '<option value="' . $parent->code . '" selected>' . $parent->title . ' - ' . $parent->code . '</option>';
                     } else {
-                        echo '<option>' . $parent . '</option>';
+                        echo '<option value="' . $parent->code . '">' . $parent->title . ' - ' . $parent->code . '</option>';
                     }
                 }
                 ?>
@@ -36,7 +36,7 @@
             <label for="code">Code:</label>
         </td>
         <td>
-            <input type="text" name="code" id="code" value="<?php echo $data[2] ?>" required>
+            <input type="text" name="code" id="code" value="<?php echo $data['code'] ?>" required>
         </td>
     </tr>
 
@@ -46,7 +46,7 @@
         </td>
         <td>
             <textarea name="description" class="description" id="description"
-                      required> <?php echo $data[3] ?> </textarea>
+                      required> <?php echo $data['description'] ?> </textarea>
         </td>
     </tr>
 
@@ -67,7 +67,7 @@
             <p id="feedbackMessage"></p>
         </td>
         <td>
-            <input type="hidden" id="idCategory" value="<?php echo $data[5] ?>">
+            <input type="hidden" id="idCategory" value="<?php echo $data['id'] ?>"/>
         </td>
     </tr>
 
