@@ -121,6 +121,13 @@ class ProductController extends AdminController
         return new JSONResponse(['success' => false, 'message' => 'Image not uploaded successfully.']);
     }
 
+    /**
+     * Method that returns 10 products per page
+     *
+     * @param Request $request
+     *
+     * @return Response
+     */
     public function getPage(Request $request): Response
     {
         $response = new HTMLResponse();
@@ -135,6 +142,63 @@ class ProductController extends AdminController
             $products));
 
         return $response;
+    }
+
+    /**
+     * Method used to enable products selected from table.
+     *
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function enableProducts(Request $request): Response
+    {
+        $productsJSON = json_decode($request->getBody());
+
+        $products = $productsJSON->sku;
+        $productsToEnable = array();
+
+        foreach ($products as $product) {
+            $productDTO = ProductService::getProductBySKU($product);
+            $productToEnable = new Product($productDTO->getCategoryId(), $productDTO->getSku(), $productDTO->getTitle(),
+                $productDTO->getBrand(), $productDTO->getPrice(), $productDTO->getShortDescription(),
+                $productDTO->getDescription(), $productDTO->getImage(), $productDTO->getEnabled(),
+                $productDTO->getFeatured(), $productDTO->getViewCount());
+            $productsToEnable[] = $productToEnable;
+        }
+
+        ProductService::enableSelectedProducts($productsToEnable);
+
+        return new JSONResponse(['success' => 'Products successfully enabled.']);
+    }
+
+    /**
+     * Method used to disable products selected from table.
+     *
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function disableProducts(Request $request): Response
+    {
+        $productsJSON = json_decode($request->getBody());
+
+        $products = $productsJSON->sku;
+        $productsToDisable = array();
+
+        foreach ($products as $product) {
+            $productDTO = ProductService::getProductBySKU($product);
+            $productToDisable = new Product($productDTO->getCategoryId(), $productDTO->getSku(),
+                $productDTO->getTitle(),
+                $productDTO->getBrand(), $productDTO->getPrice(), $productDTO->getShortDescription(),
+                $productDTO->getDescription(), $productDTO->getImage(), $productDTO->getEnabled(),
+                $productDTO->getFeatured(), $productDTO->getViewCount());
+            $productsToDisable[] = $productToDisable;
+        }
+
+        ProductService::disableSelectedProducts($productsToDisable);
+
+        return new JSONResponse(['success' => 'Products successfully enabled.']);
     }
 
 }

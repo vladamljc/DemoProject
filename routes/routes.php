@@ -46,6 +46,8 @@ Routes::add(new Route(ProductController::class, 'getAddNewProductView', '/admin/
 Routes::add(new Route(ProductController::class, 'addNewProduct', '/admin/product/create', 'POST'));
 Routes::add(new Route(ProductController::class, 'uploadProductImage', '/admin/product/uploadImage', 'POST'));
 Routes::add(new Route(ProductController::class, 'getPage', '/admin/products/getPage', 'GET'));
+Routes::add(new Route(ProductController::class, 'enableProducts', '/admin/products/enableProducts', 'POST'));
+Routes::add(new Route(ProductController::class, 'disableProducts', '/admin/products/disableProducts', 'POST'));
 
 
 

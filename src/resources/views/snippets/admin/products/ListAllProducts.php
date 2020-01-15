@@ -19,7 +19,7 @@
             echo '<tr>';
 
             echo '<td>';
-            echo '<input type="checkbox" </input>';
+            echo '<input type="checkbox" name="select" value="' . $row->getSKU() . '" </input>';
             echo '</td>';
 
             echo '<td>';

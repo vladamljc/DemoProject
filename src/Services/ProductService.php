@@ -25,9 +25,13 @@ class ProductService
      *
      * @return Product|null
      */
-    public static function getProductBySKU($SKU): ?\Catalog\Data\Models\Product
+    public static function getProductBySKU($SKU): ?Product
     {
-        return ProductRepository::getProductBySKU($SKU);
+        $product = ProductRepository::getProductBySKU($SKU);
+
+        return new Product($product->CategoryId, $product->SKU, $product->Title, $product->Brand,
+            $product->Price, $product->ShortDescription, $product->Description, $product->Image, $product->Enabled,
+            $product->Featured, $product->ViewCount);
     }
 
     /**
@@ -71,5 +75,25 @@ class ProductService
     public static function getNumberOfProducts(): int
     {
         return ProductRepository::getNumberOfProducts();
+    }
+
+    /**
+     * Method to enable product.
+     *
+     * @param array $productsToEnable
+     */
+    public static function enableSelectedProducts(array $productsToEnable): void
+    {
+        ProductRepository::enableSelectedProducts($productsToEnable);
+    }
+
+    /**
+     * Method to disable product.
+     *
+     * @param array $productsToDisable
+     */
+    public static function disableSelectedProducts(array $productsToDisable): void
+    {
+        ProductRepository::disableSelectedProducts($productsToDisable);
     }
 }

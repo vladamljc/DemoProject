@@ -75,4 +75,31 @@ class ProductRepository
         return ProductModel::all()->count();
     }
 
+    /**
+     * Method that sets flag enabled in database table for selected products.
+     *
+     * @param array $productsToEnable
+     */
+    public static function enableSelectedProducts(array $productsToEnable): void
+    {
+        foreach ($productsToEnable as $product) {
+            ProductModel::where('SKU', $product->getSKU())->update([
+                'Enabled' => 1
+            ]);
+        }
+    }
+
+    /**
+     * Method that resets flag enable in database table for selected products.
+     *
+     * @param array $productsToDisable
+     */
+    public static function disableSelectedProducts(array $productsToDisable): void
+    {
+        foreach ($productsToDisable as $product) {
+            ProductModel::where('SKU', $product->getSKU())->update([
+                'Enabled' => 0
+            ]);
+        }
+    }
 }

@@ -69,10 +69,57 @@ var Catalog = window.Catalog || {};
 
             Catalog.productProxy.getPage(uri).then(function (response) {
                 document.getElementById('idContentProduct').innerHTML = response;
+                document.getElementById('idCurrentPage').value = pageId;
             }).catch(function (err) {
 
             });
 
+        };
+
+        me.enableProducts = function () {
+            let uri = '/admin/products/enableProducts';
+
+            let cboxes = document.getElementsByName('select');
+            let len = cboxes.length;
+            let listOfSKU = [];
+
+            for (let i = 0; i < len; i++) {
+                if (cboxes[i].checked)
+                    listOfSKU.push(cboxes[i].value);
+            }
+
+            let products = {
+                sku: listOfSKU
+            };
+
+            Catalog.productProxy.enableProducts(uri, JSON.stringify(products)).then(function (response) {
+                me.getPage(document.getElementById('idCurrentPage').value);
+            }).catch(function (err) {
+                alert('error: not enabled.');
+            });
+        };
+
+        me.disableProducts = function () {
+            let uri = '/admin/products/disableProducts';
+
+            let cboxes = document.getElementsByName('select');
+            let len = cboxes.length;
+            let listOfSKU = [];
+
+            for (let i = 0; i < len; i++) {
+                if (cboxes[i].checked)
+                    listOfSKU.push(cboxes[i].value);
+            }
+
+            let products = {
+                sku: listOfSKU
+            };
+
+            Catalog.productProxy.disableProducts(uri, JSON.stringify(products)).then(function (response) {
+                me.getPage(document.getElementById('idCurrentPage').value);
+            }).catch(function (err) {
+                alert('error: not enabled.');
+            });
         }
     }
 

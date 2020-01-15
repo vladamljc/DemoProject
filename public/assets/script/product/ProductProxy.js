@@ -20,6 +20,14 @@ var Catalog = window.Catalog || {};
         me.getPage = function (uri) {
             return Catalog.ajaxService.get(uri);
         };
+
+        me.enableProducts = function (uri, json) {
+            return Catalog.ajaxService.post(uri, json, '');
+        };
+
+        me.disableProducts = function (uri, json) {
+            return Catalog.ajaxService.post(uri, json, '');
+        }
     }
 
     Catalog.productProxy = new ProductProxy();

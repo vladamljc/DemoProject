@@ -6,6 +6,15 @@
             <button id="idButtonNewProduct" name="ButtonNewProduct" onclick="Catalog.adminProduct.getNewProductView()">
                 Add new product
             </button>
+
+            <button id="idButtonEnableProducts" name="Enable selected" onclick="Catalog.adminProduct.enableProducts()">
+                Enable selected
+            </button>
+
+            <button id="idButtonDisableProducts" name="Disable selected"
+                    onclick="Catalog.adminProduct.disableProducts()">
+                Disable selected
+            </button>
         </div>
     </div>
 
@@ -13,7 +22,7 @@
     </div>
 
     <div class="product-bottom">
-
+        <input type="hidden" id="idCurrentPage">
     </div>
 
 </div>
