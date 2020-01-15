@@ -27,6 +27,14 @@ var Catalog = window.Catalog || {};
 
         me.disableProducts = function (uri, json) {
             return Catalog.ajaxService.post(uri, json, '');
+        };
+
+        me.deleteSelectedProducts = function (uri, json) {
+            return Catalog.ajaxService.post(uri, json, '');
+        };
+
+        me.deleteProduct = function (uri, json) {
+            return Catalog.ajaxService.post(uri, json, '')
         }
     }
 

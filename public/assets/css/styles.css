@@ -301,3 +301,7 @@
 .button-pagination {
     width: auto;
 }
+
+.product-message {
+    text-align: center;
+}

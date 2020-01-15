@@ -59,7 +59,7 @@
             echo '</td>';
 
             echo '<td>';
-            echo '<input type="button" value="delete" />';
+            echo '<input type="button" value="delete" onclick="Catalog.adminProduct.deleteProduct(' . "'" . $row->getSKU() . "'" . ')" />';
             echo '</td>';
 
             echo '</tr>';
@@ -83,6 +83,9 @@ echo '..<input type="button" id="' . ($numOfPages - 1) . '" value=">>" class="bu
 
 echo '</div>';
 echo '</div>';
+
+echo '<p id="idProductMessage" class="product-message">' . '</p>';
+
 ?>
 
 

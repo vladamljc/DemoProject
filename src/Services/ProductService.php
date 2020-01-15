@@ -96,4 +96,25 @@ class ProductService
     {
         ProductRepository::disableSelectedProducts($productsToDisable);
     }
+
+    /**
+     * Method to delete selected products.
+     *
+     * @param array $productsToDelete
+     */
+    public static function deleteSelectedProducts(array $productsToDelete): void
+    {
+        ProductRepository::deleteSelectedProducts($productsToDelete);
+    }
+
+    /**
+     * Method to delete single product
+     *
+     * @param Product $product
+     */
+    public static function deleteProduct(Product $product): void
+    {
+        ProductRepository::deleteProduct($product);
+    }
+
 }

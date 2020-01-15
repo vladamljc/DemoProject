@@ -92,14 +92,24 @@ class ProductRepository
     /**
      * Method that resets flag enable in database table for selected products.
      *
-     * @param array $productsToDisable
+     * @param array $productsToDelete
      */
-    public static function disableSelectedProducts(array $productsToDisable): void
+    public static function deleteSelectedProducts(array $productsToDelete): void
     {
-        foreach ($productsToDisable as $product) {
-            ProductModel::where('SKU', $product->getSKU())->update([
-                'Enabled' => 0
-            ]);
+        foreach ($productsToDelete as $product) {
+            ProductModel::where('SKU', $product->getSKU())->delete();
+            unlink($product->getImage());
         }
+    }
+
+    /**
+     * Method to delete single category
+     *
+     * @param Product $product
+     */
+    public static function deleteProduct(Product $product): void
+    {
+        ProductModel::where('SKU', $product->getSKU())->delete();
+        unlink($product->getImage());
     }
 }

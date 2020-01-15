@@ -7,6 +7,11 @@
                 Add new product
             </button>
 
+            <button id="idButtonDeleteProducts" name="ButtonDeleteProducts"
+                    onclick="Catalog.adminProduct.deleteSelectedProducts()">
+                Delete products
+            </button>
+
             <button id="idButtonEnableProducts" name="Enable selected" onclick="Catalog.adminProduct.enableProducts()">
                 Enable selected
             </button>

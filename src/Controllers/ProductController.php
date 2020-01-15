@@ -201,4 +201,50 @@ class ProductController extends AdminController
         return new JSONResponse(['success' => 'Products successfully enabled.']);
     }
 
+    /**
+     * Method to delete all selected products
+     *
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function deleteSelectedProducts(Request $request): Response
+    {
+        $productsJSON = json_decode($request->getBody());
+
+        $products = $productsJSON->sku;
+        $productsToDelete = array();
+
+        foreach ($products as $product) {
+            $productDTO = ProductService::getProductBySKU($product);
+            $productToDelete = new Product($productDTO->getCategoryId(), $productDTO->getSku(),
+                $productDTO->getTitle(),
+                $productDTO->getBrand(), $productDTO->getPrice(), $productDTO->getShortDescription(),
+                $productDTO->getDescription(), $productDTO->getImage(), $productDTO->getEnabled(),
+                $productDTO->getFeatured(), $productDTO->getViewCount());
+            $productsToDelete[] = $productToDelete;
+        }
+
+        ProductService::deleteSelectedProducts($productsToDelete);
+
+        return new JSONResponse(['message' => 'Products successfully deleted.']);
+    }
+
+    /**
+     * Method used to delete single product
+     *
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function deleteProduct(Request $request): Response
+    {
+        $productJSON = json_decode($request->getBody());
+        $productDTO = ProductService::getProductBySKU($productJSON->sku);
+
+        ProductService::deleteProduct($productDTO);
+
+        return new JSONResponse(['message' => 'Product successfully deleted.']);
+    }
+
 }

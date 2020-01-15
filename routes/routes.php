@@ -48,6 +48,9 @@ Routes::add(new Route(ProductController::class, 'uploadProductImage', '/admin/pr
 Routes::add(new Route(ProductController::class, 'getPage', '/admin/products/getPage', 'GET'));
 Routes::add(new Route(ProductController::class, 'enableProducts', '/admin/products/enableProducts', 'POST'));
 Routes::add(new Route(ProductController::class, 'disableProducts', '/admin/products/disableProducts', 'POST'));
+Routes::add(new Route(ProductController::class, 'deleteSelectedProducts', '/admin/products/deleteSelectedProducts',
+    'POST'));
+Routes::add(new Route(ProductController::class, 'deleteProduct', '/admin/products/deleteProduct', 'POST'));
 
 
 

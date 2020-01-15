@@ -120,6 +120,47 @@ var Catalog = window.Catalog || {};
             }).catch(function (err) {
                 alert('error: not enabled.');
             });
+        };
+
+        me.deleteSelectedProducts = function () {
+            let uri = '/admin/products/deleteSelectedProducts';
+
+            let cboxes = document.getElementsByName('select');
+            let len = cboxes.length;
+            let listOfSKU = [];
+
+            for (let i = 0; i < len; i++) {
+                if (cboxes[i].checked)
+                    listOfSKU.push(cboxes[i].value);
+            }
+
+            let products = {
+                sku: listOfSKU
+            };
+
+            Catalog.productProxy.deleteSelectedProducts(uri, JSON.stringify(products)).then(function (response) {
+                me.getPage(0);
+                let messageJSON = JSON.parse(response);
+                document.getElementById('idProductMessage').innerText = messageJSON.message;
+            }).catch(function (err) {
+                alert('error: not enabled.');
+            });
+        };
+
+        me.deleteProduct = function (sku) {
+            let uri = '/admin/products/deleteProduct';
+
+            let product = {
+                sku: sku
+            };
+
+            Catalog.productProxy.deleteProduct(uri, JSON.stringify(product)).then(function (response) {
+                me.getPage(0);
+                let messageJSON = JSON.parse(response);
+                document.getElementById('idProductMessage').innerText = messageJSON.message;
+            }).catch(function (err) {
+                alert('error: not enabled.');
+            });
         }
     }
 
