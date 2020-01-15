@@ -166,6 +166,7 @@
     height: 70%;
     width: 100%;
     float: top;
+
 }
 
 .product-bottom {
@@ -278,3 +279,25 @@
     margin-top: 5px;
 }
 
+.table-products {
+    width: 100%;
+}
+
+.table-wrapper {
+    width: 100%;
+    height: 55%;
+}
+
+.pagination-wrapper {
+    text-align: center;
+    margin-top: 10px;
+    float: bottom;
+}
+
+.pagination-content {
+    display: inline-block;
+}
+
+.button-pagination {
+    width: auto;
+}
