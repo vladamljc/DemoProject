@@ -90,6 +90,20 @@ class ProductRepository
     }
 
     /**
+     *  Method that disables selected products.
+     *
+     * @param array $productsToDisable
+     */
+    public static function disableSelectedProducts(array $productsToDisable): void
+    {
+        foreach ($productsToDisable as $product) {
+            ProductModel::where('SKU', $product->getSKU())->update([
+                'Enabled' => 0
+            ]);
+        }
+    }
+
+    /**
      * Method that resets flag enable in database table for selected products.
      *
      * @param array $productsToDelete
