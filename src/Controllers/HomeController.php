@@ -4,6 +4,7 @@ namespace Catalog\Controllers;
 
 use Catalog\Http\HTMLResponse;
 use Catalog\Http\Response;
+use Catalog\Services\StatisticsService;
 
 /**
  * Class HomeController
@@ -19,6 +20,8 @@ class HomeController extends FrontController
      */
     public function renderHomePage(): Response
     {
+
+        StatisticsService::incrementHomepageCount();
 
         $htmlResponse = new HTMLResponse();
         $htmlResponse->setContent(

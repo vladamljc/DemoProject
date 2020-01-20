@@ -130,4 +130,14 @@ class ProductRepository
             'Featured' => $product->getFeatured()
         ]);
     }
+
+    /**
+     * Returns most viewed product.
+     *
+     * @return ProductModel
+     */
+    public static function getMostViewedProduct(): ProductModel
+    {
+        return ProductModel::orderBy('ViewCount', 'desc')->first();
+    }
 }

@@ -118,4 +118,14 @@ class CategoryService
         }
     }
 
+    /**
+     * Returns number of categories.
+     *
+     * @return int
+     */
+    public static function getNumberOfCategories(): int
+    {
+        return CategoryRepository::getNumberOfCategories();
+    }
+
 }

@@ -113,4 +113,13 @@ class CategoryRepository
         return Product::where('CategoryId', $category->getId())->exists();
     }
 
+    /**
+     * Returns number of categories.
+     *
+     * @return int
+     */
+    public static function getNumberOfCategories(): int
+    {
+        return Category::all()->count();
+    }
 }
