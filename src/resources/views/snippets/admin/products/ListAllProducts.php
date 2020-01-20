@@ -55,7 +55,7 @@
             echo '</td>';
 
             echo '<td>';
-            echo '<input type="button" value="update" />';
+            echo '<input type="button" value="update" onclick="Catalog.adminProduct.getEditProductView(' . "'" . $row->getSKU() . "'" . ')" />';
             echo '</td>';
 
             echo '<td>';

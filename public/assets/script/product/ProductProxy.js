@@ -34,7 +34,15 @@ var Catalog = window.Catalog || {};
         };
 
         me.deleteProduct = function (uri, json) {
-            return Catalog.ajaxService.post(uri, json, '')
+            return Catalog.ajaxService.post(uri, json, '');
+        };
+
+        me.getEditProductView = function (uri) {
+            return Catalog.ajaxService.get(uri);
+        };
+
+        me.editProduct = function (uri) {
+            return Catalog.ajaxService.get(uri);
         }
     }
 

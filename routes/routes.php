@@ -52,6 +52,9 @@ Routes::add(new Route(ProductController::class, 'deleteSelectedProducts', '/admi
     'POST'));
 Routes::add(new Route(ProductController::class, 'deleteProduct', '/admin/products/deleteProduct', 'POST'));
 
+Routes::add(new Route(ProductController::class, 'getEditProductView', '/admin/product/{param}', 'GET'));
+Routes::add(new Route(ProductController::class, 'editProduct', '/admin/products/editProduct', 'GET'));
+
 
 
 

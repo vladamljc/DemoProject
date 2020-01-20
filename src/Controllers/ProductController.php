@@ -3,6 +3,7 @@
 namespace Catalog\Controllers;
 
 use Catalog\Data\DTO\Product;
+use Catalog\Data\Validation\ProductValidator;
 use Catalog\Http\HTMLResponse;
 use Catalog\Http\JSONResponse;
 use Catalog\Http\Request;
@@ -245,6 +246,80 @@ class ProductController extends AdminController
         ProductService::deleteProduct($productDTO);
 
         return new JSONResponse(['message' => 'Product successfully deleted.']);
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function getEditProductView(Request $request): Response
+    {
+        $response = new HTMLResponse();
+
+        $productData = array();
+
+        $allCategories = CategoryService::getAllCategories();
+        $categories = array();
+        foreach ($allCategories as $category) {
+            $categoryTemp = CategoryService::getCategoryByCode($category->getCode());
+
+            if ($categoryTemp->getParentId() === -1) {
+                $parentTitle = 'Root';
+            } else {
+                $categoryParent = CategoryService::getCategoryById($categoryTemp->getParentId());
+                $parentTitle = $categoryParent->getTitle();
+            }
+            $categoryBean = new SelectCategoryBean($category->getTitle(), $category->getCode(), $parentTitle);
+            $categories[] = $categoryBean;
+        }
+
+        $productDTO = ProductService::getProductBySKU($request->getParameters()[0]);
+
+        $categoryDTO = CategoryService::getCategoryById($productDTO->getCategoryId());
+
+        $imageCompletePath = $productDTO->getImage();
+
+        $imagePathPieces = explode('/', $imageCompletePath);
+        $numPieces = count($imagePathPieces);
+
+        $imageName = $imagePathPieces[$numPieces - 1];
+
+        $productData['category'] = $categories;
+        $productData['productInfo'] = $productDTO;
+        $productData['imagePath'] = '/assets/Images/' . $imageName;
+        $productData['myCategoryCode'] = $categoryDTO->getCode();
+        $productData['idProductIdHidden'] = $productDTO->getId();
+
+        $response->setContent(ViewRenderer::render('views/snippets/admin/products/EditProductView', $productData));
+
+        return $response;
+    }
+
+    /**
+     * Method used to edit product
+     *
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function editProduct(Request $request): Response
+    {
+        if (!ProductValidator::validateProduct($request->getQuery()['sku'], $request->getQuery()['title'],
+            $request->getQuery()['brand'], $request->getQuery()['price'], $request->getQuery()['shortDescription'],
+            $request->getQuery()['description'])) {
+            return new JSONResponse(['message' => ProductValidator::getErrorMessage()]);
+        }
+
+        $productCategory = CategoryService::getCategoryByCode($request->getQuery()['category']);
+        $productDTO = new Product($productCategory->getId(), $request->getQuery()['sku'], $request->getQuery()['title'],
+            $request->getQuery()['brand'], $request->getQuery()['price'], $request->getQuery()['shortDescription'],
+            $request->getQuery()['description'], ' ', $request->getQuery()['enabled'], $request->getQuery()['featured'],
+            0);
+        $productDTO->setId($request->getQuery()['idProduct']);
+        ProductService::editProduct($productDTO);
+
+        return new JSONResponse(['message' => 'Product edited.']);
     }
 
 }

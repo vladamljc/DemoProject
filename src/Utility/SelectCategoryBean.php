@@ -19,15 +19,22 @@ class SelectCategoryBean
     public $code;
 
     /**
+     * @var string
+     */
+    public $parentTitle;
+
+    /**
      * SelectCategoryBean constructor.
      *
      * @param string $title
      * @param string $code
+     * @param string $parentTitle
      */
-    public function __construct(string $title, string $code)
+    public function __construct(string $title, string $code, string $parentTitle)
     {
         $this->title = $title;
         $this->code = $code;
+        $this->parentTitle = $parentTitle;
     }
 
     /**
@@ -60,6 +67,22 @@ class SelectCategoryBean
     public function setCode(string $code): void
     {
         $this->code = $code;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCategoryText(): string
+    {
+        return $this->categoryText;
+    }
+
+    /**
+     * @param string $categoryText
+     */
+    public function setCategoryText(string $categoryText): void
+    {
+        $this->parentTitle = $categoryText;
     }
 
 }

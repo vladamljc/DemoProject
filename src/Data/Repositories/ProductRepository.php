@@ -112,4 +112,22 @@ class ProductRepository
         ProductModel::where('SKU', $product->getSKU())->delete();
         unlink($product->getImage());
     }
+
+    /**
+     * @param Product $product
+     */
+    public static function editProduct(Product $product): void
+    {
+        ProductModel::where('Id', $product->getId())->update([
+            'CategoryId' => $product->getCategoryId(),
+            'SKU' => $product->getSku(),
+            'Title' => $product->getTitle(),
+            'Brand' => $product->getBrand(),
+            'Price' => $product->getPrice(),
+            'ShortDescription' => $product->getShortDescription(),
+            'Description' => $product->getDescription(),
+            'Enabled' => $product->getEnabled(),
+            'Featured' => $product->getFeatured()
+        ]);
+    }
 }

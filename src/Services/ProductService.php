@@ -29,9 +29,12 @@ class ProductService
     {
         $product = ProductRepository::getProductBySKU($SKU);
 
-        return new Product($product->CategoryId, $product->SKU, $product->Title, $product->Brand,
+        $productDTO = new Product($product->CategoryId, $product->SKU, $product->Title, $product->Brand,
             $product->Price, $product->ShortDescription, $product->Description, $product->Image, $product->Enabled,
             $product->Featured, $product->ViewCount);
+        $productDTO->setId($product->Id);
+
+        return $productDTO;
     }
 
     /**
@@ -115,6 +118,14 @@ class ProductService
     public static function deleteProduct(Product $product): void
     {
         ProductRepository::deleteProduct($product);
+    }
+
+    /**
+     * @param Product $product
+     */
+    public static function editProduct(Product $product): void
+    {
+        ProductRepository::editProduct($product);
     }
 
 }

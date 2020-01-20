@@ -55,6 +55,16 @@ class Product
     private $categoryName;
 
     /**
+     * @var
+     */
+    private $oldSKU;
+
+    /**
+     * @var int
+     */
+    private $id;
+
+    /**
      * Product constructor.
      *
      * @param int $categoryId
@@ -197,6 +207,22 @@ class Product
     public function setCategoryName(string $categoryName): void
     {
         $this->categoryName = $categoryName;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId(int $id): void
+    {
+        $this->id = $id;
     }
 
 }

@@ -161,6 +161,59 @@ var Catalog = window.Catalog || {};
             }).catch(function (err) {
                 alert('error: not enabled.');
             });
+        };
+
+        me.getEditProductView = function (param) {
+            let contentDiv = document.getElementById('idProductPage');
+            let uri = '/admin/product/' + param;
+            Catalog.productProxy.getEditProductView(uri).then(function (response) {
+                contentDiv.innerHTML = response;
+            }).catch(function (err) {
+                alert(err);
+                contentDiv.innerText = 'ERROR: PAGE NOT LOADED';
+            });
+
+        };
+
+        me.editProduct = function () {
+            let contentDiv = document.getElementById('idProductPage');
+
+            let sku = document.getElementById('idSKU').value;
+            let title = document.getElementById('idTitle').value;
+            let brand = document.getElementById('idBrand').value;
+            let category = document.getElementById('idCategory').value;
+            let price = document.getElementById('idPrice').value;
+            let shortDescription = document.getElementById('idShortDescription').value;
+            let description = document.getElementById('idDescription').value;
+            let enabled;
+            if (document.getElementById('idEnabled').checked) enabled = 1; else enabled = 0;
+            let featured;
+            if (document.getElementById('idFeatured').checked) featured = 1; else featured = 0;
+            let id = document.getElementById('idProductIdHidden').value;
+
+            let uri = '/admin/products/editProduct?sku=' + sku + "&title=" + title + "&brand=" + brand + '&category=' + category + '&price=' + price + '&shortDescription=' + shortDescription + '&description=' + description + '&enabled=' + enabled + '&featured=' + featured + '&idProduct=' + id;
+
+            Catalog.productProxy.editProduct(uri).then(function (response) {
+                let feedBackMessage = JSON.parse(response);
+                document.getElementById('idMessageEditCategory').innerText = (feedBackMessage.message);
+            }).catch(function (err) {
+                contentDiv.innerText = 'ERROR: PAGE NOT LOADED';
+            });
+
+            if (document.getElementById('idButtonUploadImage').files.length !== 0) {
+                let formData = new FormData();
+                formData.append("fileToUpload", document.getElementById('idButtonUploadImage').files[0]);
+                formData.append("SKU", document.getElementById('idSKU').value);
+
+                let uriUpload = '/admin/product/uploadImage';
+                Catalog.productProxy.uploadProductImage(uriUpload, formData).then(function (response) {
+                    let message = JSON.parse(response);
+                    document.getElementById('idUploadImageMessage').innerText += ' ' + message.message;
+                }).catch(function (err) {
+                    let message = JSON.parse(err);
+                    document.getElementById('idUploadImageMessage').innerText += ' ' + message.message;
+                });
+            }
         }
     }
 

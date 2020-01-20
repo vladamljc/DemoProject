@@ -41,6 +41,11 @@ class Request
     private $files = [];
 
     /**
+     * @var array
+     */
+    private $parameters = [];
+
+    /**
      * @return string
      */
     public function getBody(): string
@@ -150,6 +155,30 @@ class Request
     public function setFiles(array $files): void
     {
         $this->files = $files;
+    }
+
+    /**
+     * @return array
+     */
+    public function getParameters(): array
+    {
+        return $this->parameters;
+    }
+
+    /**
+     * @param array $parameters
+     */
+    public function setParameters(array $parameters): void
+    {
+        $this->parameters = $parameters;
+    }
+
+    /**
+     * @param string $param
+     */
+    public function addParameter(string $param): void
+    {
+        $this->parameters[] = $param;
     }
 
 }
