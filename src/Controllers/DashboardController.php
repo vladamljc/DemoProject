@@ -4,6 +4,7 @@ namespace Catalog\Controllers;
 
 use Catalog\Http\HTMLResponse;
 use Catalog\Http\Response;
+use Catalog\Services\StatisticsService;
 use Catalog\Utility\ViewRenderer;
 
 /**
@@ -22,7 +23,19 @@ class DashboardController extends AdminController
     public function index(): Response
     {
         $response = new HTMLResponse();
-        $response->setContent(ViewRenderer::render('views/admin/AdminDashboardPage'));
+
+        $dashboardData = array();
+        $dashboardData['numProducts'] = StatisticsService::getProductsCount();
+        $dashboardData['numCategories'] = StatisticsService::getCategoriesCount();
+        $dashboardData['openingCount'] = StatisticsService::getHomeViewCount();
+
+        $productDTO = StatisticsService::getMostViewedProduct();
+
+        $dashboardData['mostViewedProductName'] = $productDTO->getTitle();
+        $dashboardData['mostViewedProductViewCount'] = $productDTO->getViewCount();
+
+        $response->setContent(ViewRenderer::render('views/admin/AdminDashboardPage', $dashboardData));
+
         return $response;
     }
 }

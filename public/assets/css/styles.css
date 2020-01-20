@@ -305,3 +305,73 @@
 .product-message {
     text-align: center;
 }
+
+.dashboard-wrapper {
+    width: 100%;
+    height: 100%;
+}
+
+.dashboard-left {
+    width: 50%;
+    height: 200px;
+    float: left;
+    padding-top: 25px;
+}
+
+.dashboard-left-data {
+    margin: auto;
+    width: 50%;
+    text-align: center;
+    height: 40px;
+}
+
+.dashboard-left-data p {
+    border-width: 1px;
+    border-style: solid;
+    width: 30%;
+    float: left;
+    height: 30px;
+    margin: 0px;
+    font-size: 20px;
+}
+
+.dashboard-left-data label {
+    float: left;
+    width: 30%;
+    height: 30px;
+    font-size: 15px;
+}
+
+.dashboard-right {
+    width: 30%;
+    height: 50%;
+    float: left;
+    padding-top: 25px;
+}
+
+.dashboard-right-data {
+    margin: auto;
+    width: 50%;
+    text-align: center;
+    height: 40px;
+}
+
+.dashboard-right-data p {
+    border-width: 1px;
+    border-style: solid;
+    width: 50%;
+    float: left;
+    height: 50px;
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-left: 0px;
+    margin-bottom: 15px;
+    font-size: 20px;
+}
+
+.dashboard-right-data label {
+    float: left;
+    width: 40%;
+    height: 30px;
+    font-size: 15px;
+}
