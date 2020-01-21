@@ -7,6 +7,8 @@
     <script type="text/javascript" src="/assets/script/category/CategoryProxy.js"></script>
     <script type="text/javascript" src="/assets/script/category/AdminCategory.js"></script>
     <script type="text/javascript" src="/assets/script/visitor/TreeViewProxy.js"></script>
+    <script type="text/javascript" src="/assets/script/visitor/Visitor.js"></script>
+    <script type="text/javascript" src="/assets/script/visitor/VisitorProxy.js"></script>
 </head>
 
 <body onload="Catalog.adminCategory.getCategoriesHomePage()">
@@ -35,7 +37,7 @@
     </div>
 
 
-    <div class="homepage-featured">
+    <div class="homepage-featured" id="idProducts">
 
         <?php
 
@@ -49,7 +51,7 @@
 
                 for ($j = 0; $j < 3; $j++) {
 
-                    echo '<div class="' . 'card-holder' . '">';
+                    echo '<div class="' . 'card-holder' . '" id="' . $data['featuredProducts'][$cntProducts]->getSku() . '"onclick="Catalog.visitor.getProductDetails(\'' . $data['featuredProducts'][$cntProducts]->getSku() . '\')">';
 
                     echo '<div class="' . 'card-price' . '">';
                     echo $data['featuredProducts'][$cntProducts]->getPrice() . ' rsd';
@@ -75,7 +77,7 @@
                 }
             } else {
                 for ($j = $cntProducts; $j < $numProducts; $j++) {
-                    echo '<div class="' . 'card-holder' . '">';
+                    echo '<div class="' . 'card-holder' . '" id="' . $data['featuredProducts'][$cntProducts]->getSku() . '" onclick="Catalog.visitor.getProductDetails(\'' . $data['featuredProducts'][$cntProducts]->getSku() . '\')">';
 
                     echo '<div class="' . 'card-price' . '">';
                     echo $data['featuredProducts'][$cntProducts]->getPrice() . ' rsd';

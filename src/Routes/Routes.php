@@ -53,8 +53,9 @@ class Routes
                         $paramRequestRoute = str_split($piecesRequest[$i]);
                         $paramRequestRouteString = implode('', $paramRequestRoute);
 
-                        if (strpos($paramCurrentRouteString,
-                                '{') === 0 && $paramCurrentRouteString[strlen($paramCurrentRouteString) - 1] === '}') {
+                        if ((strpos($paramCurrentRouteString,
+                                    '{') === 0 && $paramCurrentRouteString[strlen($paramCurrentRouteString) - 1] === '}') || (strpos($paramCurrentRouteString,
+                                    '[') === 0 && $paramCurrentRouteString[strlen($paramCurrentRouteString) - 1] === ']')) {
                             $request->addParameter($paramRequestRouteString);
                             $cntExactMatches++;
                         } else {

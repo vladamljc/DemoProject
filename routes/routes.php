@@ -5,6 +5,7 @@ use Catalog\Controllers\DashboardController;
 use Catalog\Controllers\HomeController;
 use Catalog\Controllers\LoginController;
 use Catalog\Controllers\ProductController;
+use Catalog\Controllers\ProductFrontController;
 use Catalog\Middleware\AdminMiddleware;
 use Catalog\Routes\Route;
 use Catalog\Routes\Routes;
@@ -54,6 +55,9 @@ Routes::add(new Route(ProductController::class, 'deleteProduct', '/admin/product
 
 Routes::add(new Route(ProductController::class, 'getEditProductView', '/admin/product/{param}', 'GET'));
 Routes::add(new Route(ProductController::class, 'editProduct', '/admin/products/editProduct', 'GET'));
+
+Routes::add(new Route(ProductFrontController::class, 'index', '/product/[param]', 'GET'));
+
 
 
 
