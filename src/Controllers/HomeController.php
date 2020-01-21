@@ -4,7 +4,9 @@ namespace Catalog\Controllers;
 
 use Catalog\Http\HTMLResponse;
 use Catalog\Http\Response;
+use Catalog\Services\ProductService;
 use Catalog\Services\StatisticsService;
+use Catalog\Utility\ViewRenderer;
 
 /**
  * Class HomeController
@@ -24,24 +26,18 @@ class HomeController extends FrontController
         StatisticsService::incrementHomepageCount();
 
         $htmlResponse = new HTMLResponse();
-        $htmlResponse->setContent(
-            '<table style="width:30%">
-                         <tr>
-                            <th>Firstname</th>
-                            <th>Lastname</th>
-                            <th>Age</th>
-                         </tr>
-                         <tr>
-                            <td>Jill</td>
-                            <td>Smith</td>
-                            <td>50</td>
-                        </tr>
-                        <tr>
-                            <td>Eve</td>
-                            <td>Jackson</td>
-                            <td>94</td>
-                        </tr>
-                     </table>');
+
+        $productsData = array();
+
+        $featuredProducts = ProductService::getFeaturedProducts();
+        $numProducts = count($featuredProducts);
+
+        $numRows = ceil($numProducts / 3);
+        $productsData['numRows'] = $numRows;
+        $productsData['featuredProducts'] = $featuredProducts;
+        $productsData['numProducts'] = $numProducts;
+
+        $htmlResponse->setContent(ViewRenderer::render('views/visitor/HomePage', $productsData));
 
         return $htmlResponse;
     }

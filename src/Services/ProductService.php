@@ -128,4 +128,23 @@ class ProductService
         ProductRepository::editProduct($product);
     }
 
+    /**
+     * Returns all featured products from database.
+     *
+     * @return array
+     */
+    public static function getFeaturedProducts(): array
+    {
+        $productsDTO = array();
+        $productModels = ProductRepository::getFeaturedProducts();
+        foreach ($productModels as $model) {
+            $productDTO = new Product($model->CategoryId, $model->SKU, $model->Title, $model->Brand, $model->Price,
+                $model->ShortDescription, $model->Description, $model->Image, $model->Enabled, $model->Featured,
+                $model->ViewCount);
+            $productsDTO[] = $productDTO;
+        }
+
+        return $productsDTO;
+    }
+
 }

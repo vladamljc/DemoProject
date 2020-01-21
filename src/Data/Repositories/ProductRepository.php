@@ -154,4 +154,14 @@ class ProductRepository
     {
         return ProductModel::orderBy('ViewCount', 'desc')->first();
     }
+
+    /**
+     * Returns all featured products from database.
+     *
+     * @return Collection|null
+     */
+    public static function getFeaturedProducts(): ?Collection
+    {
+        return ProductModel::where('Featured', 1)->get();
+    }
 }

@@ -144,6 +144,21 @@ var Catalog = window.Catalog || {};
 
         };
 
+        me.getCategoriesHomePage = function () {
+
+            Catalog.categoryProxy.getAllCategories().then(function (response) {
+                categoriesJSON = JSON.parse(response);
+                root = Catalog.treeHomepage.createTreeView(categoriesJSON);
+                for (let child of root) {
+                    Catalog.treeHomepage.CreateUlTreeView(child, document.getElementById('treeContainer'));
+                }
+            }).catch(function (err) {
+                return "error";
+            });
+
+
+        };
+
         me.deleteCategory = function () {
 
             let categoryCode = document.getElementById('code').value;

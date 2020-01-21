@@ -375,3 +375,98 @@
     height: 30px;
     font-size: 15px;
 }
+
+.homepage-wrapper {
+    width: 100%;
+    height: 100%;
+    float: left;
+    text-align: center;
+    font-size: 30px;
+}
+
+.homepage-header h1 {
+    margin: 0px;
+    height: 10%;
+}
+
+.homepage-categories {
+    float: left;
+    width: 15%;
+    height: 85%;
+}
+
+.search-bar {
+    float: left;
+    width: 100%;
+    height: 10%;
+    border-style: solid;
+    border-width: 1px;
+    border-color: black;
+}
+
+.list-categories {
+    float: left;
+    width: 100%;
+    height: 90%;
+}
+
+
+.homepage-featured {
+    float: left;
+    width: 83%;
+    height: 85%;
+    overflow-y: scroll;
+    border-style: solid;
+    border-width: 1px;
+    border-color: black;
+}
+
+.tree-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    text-align: left;
+    font-size: 20px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: black;
+}
+
+.tree-border {
+    border: 1px solid;
+    border-bottom-color: black;
+    padding-left: 2px;
+}
+
+.card-holder {
+    width: 30%;
+    height: 100%;
+    margin-right: 20px;
+    margin-left: 20px;
+    border-style: solid;
+    border-width: 1px;
+}
+
+.card-image {
+    width: 100%;
+    height: 50%;
+}
+
+.card-price {
+    width: 100%;
+    height: 20%;
+    margin-top: 5px;
+}
+
+.card-featured {
+    width: 100%;
+    height: 20%;
+}
+
+.featured-products-row {
+    width: 95%;
+    height: 50%;
+    margin: 5px 5px 15px 15px;
+    display: flex;
+    font-size: 20px;
+}
