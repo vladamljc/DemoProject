@@ -144,7 +144,7 @@ var Catalog = window.Catalog || {};
 
         };
 
-        me.getCategoriesHomePage = function () {
+        me.getCategoriesHomePage = function (code = -1) {
 
             Catalog.categoryProxy.getAllCategories().then(function (response) {
                 categoriesJSON = JSON.parse(response);
@@ -152,6 +152,7 @@ var Catalog = window.Catalog || {};
                 for (let child of root) {
                     Catalog.treeHomepage.CreateUlTreeView(child, document.getElementById('treeContainer'));
                 }
+                if (code !== -1) Catalog.visitor.updateTree(code);
             }).catch(function (err) {
                 return "error";
             });

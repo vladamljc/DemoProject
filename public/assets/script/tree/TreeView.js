@@ -32,7 +32,7 @@ var Catalog = window.Catalog || {};
         };
 
         me.CreateUlTreeView = function (items, parent) {
-            let treeNode = document.createElement("ul");
+            let treeNode = document.createElement("li");
 
 
             treeNode.classList.add('hideChildren');

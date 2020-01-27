@@ -147,4 +147,135 @@ class ProductService
         return $productsDTO;
     }
 
+    /**
+     * Returns all products by given category.
+     *
+     * @param string $categoryCode
+     *
+     * @return array
+     */
+    public static function getProductsByCategoryCode(string $categoryCode): array
+    {
+        $productModels = ProductRepository::getProductsByCategoryCode($categoryCode);
+        $productsDTO = array();
+
+        foreach ($productModels as $model) {
+            $productDTO = new Product($model->CategoryId, $model->SKU, $model->Title, $model->Brand, $model->Price,
+                $model->ShortDescription, $model->Description, $model->Image, $model->Enabled, $model->Featured,
+                $model->ViewCount);
+            $productsDTO[] = $productDTO;
+        }
+
+        return $productsDTO;
+    }
+
+    /**
+     * Returns products that belong to category and subcategories.
+     *
+     * @param int $myId
+     *
+     * @return array
+     */
+    public static function getAllProductsByCategoryCode(int $myId): array
+    {
+        return self::getSubCategoriesIds($myId);
+    }
+
+    /**
+     * Method that returns filtered products for category that has subcategories.
+     *
+     * @param array $ids
+     * @param string $column
+     * @param string $method
+     * @param int $productsPerPage
+     * @param int $offset
+     *
+     * @return array
+     */
+    public static function getProductsByIds(
+        array $ids,
+        string $column,
+        string $method,
+        int $productsPerPage,
+        int $offset
+    ): ?array {
+        $sortDirection = $method === 'ascending' ? 'asc' : 'desc';
+
+        $productModels = ProductRepository::getProductsByIds($ids, $column, $sortDirection, $productsPerPage, $offset);
+        $products = array();
+
+        foreach ($productModels as $model) {
+            $productDTO = new Product($model->CategoryId, $model->SKU, $model->Title, $model->Brand, $model->Price,
+                $model->ShortDescription, $model->Description, $model->Image, $model->Enabled, $model->Featured,
+                $model->ViewCount);
+            $products[] = $productDTO;
+        }
+
+        return $products;
+    }
+
+    /**
+     * Method that returns filtered products for category that does not have subcategories.
+     *
+     * @param int $id
+     * @param string $column
+     * @param string $method
+     * @param int $productsPerPage
+     * @param int $offset
+     *
+     * @return array|null
+     */
+    public static function getProductsById(
+        int $id,
+        string $column,
+        string $method,
+        int $productsPerPage,
+        int $offset
+    ): ?array {
+        $sortDirection = $method === 'ascending' ? 'asc' : 'desc';
+        $productModels = ProductRepository::getProductsById($id, $column, $sortDirection, $productsPerPage, $offset);
+        $products = array();
+
+        foreach ($productModels as $model) {
+            $productDTO = new Product($model->CategoryId, $model->SKU, $model->Title, $model->Brand, $model->Price,
+                $model->ShortDescription, $model->Description, $model->Image, $model->Enabled, $model->Featured,
+                $model->ViewCount);
+            $products[] = $productDTO;
+        }
+
+        return $products;
+    }
+
+    /**
+     * Returns number of products that belong to passed array of ids.
+     *
+     * @param array $ids
+     * @param string $column
+     * @param string $method
+     *
+     * @return int
+     */
+    public static function getProductsNumberByIds(array $ids, string $column, string $method): int
+    {
+        $sortDirection = $method === 'ascending' ? 'asc' : 'desc';
+
+        return ProductRepository::getProductsNumberByIds($ids, $column, $sortDirection);
+    }
+
+    /**
+     * Returns number of products that belong to category by id.
+     *
+     * @param int $id
+     * @param string $column
+     * @param string $method
+     *
+     * @return int
+     */
+    public static function getProductsNumberById(int $id, string $column, string $method): int
+    {
+        $sortDirection = $method === 'ascending' ? 'asc' : 'desc';
+
+        return ProductRepository::getProductsNumberById($id, $column, $sortDirection);
+    }
+
 }

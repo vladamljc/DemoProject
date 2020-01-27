@@ -128,4 +128,34 @@ class CategoryService
         return CategoryRepository::getNumberOfCategories();
     }
 
+    /**
+     * Returns selected category and it's children.
+     *
+     * @param int $id
+     *
+     * @return array
+     */
+    public static function getChildrenIds(int $id): array
+    {
+        $ids = array();
+        $childrenIds = CategoryRepository::getChildrenIds($id);
+        foreach ($childrenIds as $childrenId) {
+            $ids[] = $childrenId;
+        }
+
+        return $ids;
+    }
+
+    /**
+     * Returns number of children(sub-categories) for given category.
+     *
+     * @param int $id
+     *
+     * @return int
+     */
+    public static function getChildrenCount(int $id): int
+    {
+        return CategoryRepository::getChildrenCount($id);
+    }
+
 }

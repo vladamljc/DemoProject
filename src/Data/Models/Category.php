@@ -4,6 +4,7 @@ namespace Catalog\Data\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * Class Category
@@ -22,4 +23,10 @@ class Category extends Model
     protected $table = 'category';
 
     public $timestamps = false;
+
+    public function children(): HasMany
+    {
+        return $this->hasMany(__CLASS__, 'ParentId', 'Id');
+    }
+
 }

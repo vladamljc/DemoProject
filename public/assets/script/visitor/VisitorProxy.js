@@ -9,6 +9,13 @@ var Catalog = window.Catalog || {};
             return Catalog.ajaxService.get(uri);
         };
 
+        me.getProducts = function (uri) {
+            return Catalog.ajaxService.get(uri);
+        };
+
+        me.onPageChanged = function (uri) {
+            return Catalog.ajaxService.get(uri);
+        }
 
     }
 

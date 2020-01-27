@@ -24,5 +24,7 @@ if ($response instanceof ExceptionResponse) {
         exit;
     }
 }
+
 echo $response->getContent();
+
 

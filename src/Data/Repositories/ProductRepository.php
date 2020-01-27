@@ -3,6 +3,7 @@
 namespace Catalog\Data\Repositories;
 
 use Catalog\Data\DTO\Product;
+use Catalog\Data\Models\Category;
 use Catalog\Data\Models\Product as ProductModel;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -164,4 +165,104 @@ class ProductRepository
     {
         return ProductModel::where('Featured', 1)->get();
     }
+
+    /**
+     * Returns products that belong to given category.
+     *
+     * @param string $categoryCode
+     *
+     * @return Collection|null
+     */
+    public static function getProductsByCategoryCode(string $categoryCode): ?Collection
+    {
+        $category = Category::where('Code', $categoryCode)->first();
+
+        return ProductModel::where('CategoryId', $category->Id)->get();
+    }
+
+    public static function getAllProductsByCategoryCode(string $categoryCode): ?Collection
+    {
+        $category = Category::where('Code', $categoryCode)->first();
+
+        return ProductModel::where('CategoryId', $category->Id)->get();
+    }
+
+    /**
+     * Returns products with given ParentId.
+     *
+     * @param int $id
+     * @param string $column
+     * @param string $sortingDirection
+     * @param int $productsPerPage
+     * @param int $offset
+     *
+     * @return array|null
+     */
+    public static function getProductsById(
+        int $id,
+        string $column,
+        string $sortingDirection,
+        int $productsPerPage,
+        int $offset
+    ): ?Collection {
+        return ProductModel::query()->where('CategoryId', $id)->offset($offset)->orderBy($column,
+            $sortingDirection)->limit($productsPerPage)->get();
+    }
+
+    /**
+     * Returns products for given ParentIds.
+     *
+     * @param array $ids
+     * @param string $column
+     * @param string $sortingDirection
+     * @param int $productsPerPage
+     * @param int $offset
+     *
+     * @return Collection
+     */
+    public static function getProductsByIds(
+        array $ids,
+        string $column,
+        string $sortingDirection,
+        int $productsPerPage,
+        int $offset
+    ): Collection {
+        return ProductModel::query()->whereIn('CategoryId', $ids)->offset($offset)->orderBy($column,
+            $sortingDirection)->limit($productsPerPage)->get();
+    }
+
+    /**
+     * Returns number of products by Ids.
+     *
+     * @param array $ids
+     * @param string $column
+     * @param string $sortingDirection
+     *
+     * @return int
+     */
+    public static function getProductsNumberByIds(
+        array $ids,
+        string $column,
+        string $sortingDirection
+    ): int {
+        return ProductModel::query()->whereIn('CategoryId', $ids)->orderBy($column, $sortingDirection)->get()->count();
+    }
+
+    /**
+     * Returns number of products by Id.
+     *
+     * @param int $id
+     * @param string $column
+     * @param string $sortingDirection
+     *
+     * @return int
+     */
+    public static function getProductsNumberById(
+        int $id,
+        string $column,
+        string $sortingDirection
+    ): int {
+        return ProductModel::query()->where('CategoryId', $id)->orderBy($column, $sortingDirection)->get()->count();
+    }
+
 }

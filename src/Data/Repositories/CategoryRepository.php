@@ -104,6 +104,8 @@ class CategoryRepository
     }
 
     /**
+     * Checks if there are any products that reference given category.
+     *
      * @param CategoryDTO $category
      *
      * @return bool
@@ -122,4 +124,31 @@ class CategoryRepository
     {
         return Category::all()->count();
     }
+
+    /**
+     * Returns Ids for all children for given category.
+     *
+     * @param int $id
+     *
+     * @return Collection
+     */
+    public static function getChildrenIds(int $id): \Illuminate\Support\Collection
+    {
+        $category = Category::query()->where('Id', $id)->first();
+
+        return $category->children()->get()->pluck('Id');
+    }
+
+    /**
+     * Returns number of children for given category by id.
+     *
+     * @param int $id
+     *
+     * @return int
+     */
+    public static function getChildrenCount(int $id): int
+    {
+        return Category::query()->where('ParentId', $id)->count();
+    }
+
 }

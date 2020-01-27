@@ -32,8 +32,8 @@ var Catalog = window.Catalog || {};
         };
 
         me.CreateUlTreeView = function (items, parent) {
-            let treeNode = document.createElement("ul");
-
+            let treeNode = document.createElement("li");
+            treeNode.id = items.code;
 
             treeNode.classList.add('hideChildren');
             treeNode.classList.add('tree-border');
@@ -47,17 +47,6 @@ var Catalog = window.Catalog || {};
                         treeNode.classList.add('hideChildren');
                     }
 
-                    // let selectedCategoryWindow = document.getElementById("idFormWindow");
-                    // let code = items.code;
-                    //
-                    // let target = "/admin/categories/showSelectedCategory" + "?code=" + code;
-                    //
-                    // Catalog.treeProxy.showSelectedCategory(target).then(function (response) {
-                    //     selectedCategoryWindow.innerHTML = response;
-                    // }).catch(function (err) {
-                    //     selectedCategoryWindow.innerHTML = 'ERROR - CAN NOT LOAD PAGE';
-                    // });
-
                     event.stopPropagation();
                 }
 
@@ -65,8 +54,7 @@ var Catalog = window.Catalog || {};
             });
 
 
-            treeNode.innerText = items.title;
-
+            treeNode.innerHTML = `<a style="height: 25px" href="/${items.title}/?sortBy=pa&pageOffset=5&caller=0&page=1&code=${items.code}">${items.title}</a>`;
 
             if (items.children && items.children.length) {
                 for (let child of items.children) {

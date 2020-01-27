@@ -11,6 +11,7 @@ use Catalog\Routes\Route;
 use Catalog\Routes\Routes;
 
 Routes::add(new Route(HomeController::class, 'renderHomePage', '/', 'GET'));
+Routes::add(new Route(HomeController::class, 'returnSelectedCategory', '/{param}/', 'GET'));
 
 Routes::add(new Route(LoginController::class, 'renderLoginForm', '/login', 'GET'));
 Routes::add(new Route(LoginController::class, 'loginAction', '/login', 'POST'));
@@ -57,6 +58,7 @@ Routes::add(new Route(ProductController::class, 'getEditProductView', '/admin/pr
 Routes::add(new Route(ProductController::class, 'editProduct', '/admin/products/editProduct', 'GET'));
 
 Routes::add(new Route(ProductFrontController::class, 'index', '/product/[param]', 'GET'));
+Routes::add(new Route(ProductFrontController::class, 'renderProducts', '/products/{param}/{paramCategory}', 'GET'));
 
 
 
