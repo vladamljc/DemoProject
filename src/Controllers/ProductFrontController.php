@@ -28,8 +28,8 @@ class ProductFrontController extends FrontController
     {
         $response = new HTMLResponse();
 
-        $response->setContent(ViewRenderer::render('views/visitor/ProductDisplay',
-            [ProductService::getProductBySKU($request->getParameters()[0])]));
+        $response->setContent(ViewRenderer::render('views/visitor/SelectedProductInformation',
+            [ProductService::getProductBySKU($request->getParameters()[1])]));
 
         return $response;
     }

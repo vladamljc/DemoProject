@@ -5,18 +5,6 @@ var Catalog = window.Catalog || {};
     function Visitor() {
         let me = this;
 
-        me.getProductDetails = function (sku) {
-
-            let uri = '/product/' + sku;
-
-            Catalog.visitorProxy.getProductDetails(uri).then(function (response) {
-                document.getElementById('idProducts').innerHTML = response;
-            }).catch(function (err) {
-                alert(err);
-            });
-
-        };
-
         me.getProducts = function (uri) {
             Catalog.visitorProxy.getProducts(uri).then(function (response) {
                 document.getElementById('idProducts').innerHTML = response;

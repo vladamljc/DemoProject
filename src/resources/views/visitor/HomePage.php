@@ -53,6 +53,8 @@
 
                     echo '<div class="' . 'card-holder' . '" id="' . $data['featuredProducts'][$cntProducts]->getSku() . '"onclick="Catalog.visitor.getProductDetails(\'' . $data['featuredProducts'][$cntProducts]->getSku() . '\')">';
 
+                    echo '<a href="/product/' . $data['featuredProducts'][$cntProducts]->getSku() . '">';
+
                     echo '<div class="' . 'card-price' . '">';
                     echo $data['featuredProducts'][$cntProducts]->getPrice() . ' rsd';
                     echo '</div>';
@@ -70,6 +72,8 @@
                     echo 'featured<br>';
                     echo $data['featuredProducts'][$cntProducts]->getTitle();
                     echo '</div>';
+
+                    echo '</a>';
 
                     echo '</div>';
 
@@ -79,6 +83,8 @@
                 for ($j = $cntProducts; $j < $numProducts; $j++) {
                     echo '<div class="' . 'card-holder' . '" id="' . $data['featuredProducts'][$cntProducts]->getSku() . '" onclick="Catalog.visitor.getProductDetails(\'' . $data['featuredProducts'][$cntProducts]->getSku() . '\')">';
 
+                    echo '<a href="/product/' . $data['featuredProducts'][$cntProducts]->getSku() . '">';
+
                     echo '<div class="' . 'card-price' . '">';
                     echo $data['featuredProducts'][$cntProducts]->getPrice() . ' rsd';
                     echo '</div>';
@@ -96,6 +102,8 @@
                     echo 'featured<br>';
                     echo $data['featuredProducts'][$cntProducts]->getTitle();
                     echo '</div>';
+
+                    echo '</a>';
 
                     echo '</div>';
 
