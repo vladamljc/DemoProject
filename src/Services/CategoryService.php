@@ -112,10 +112,10 @@ class CategoryService
         $category = CategoryRepository::getCategoryByCode($code);
         if (empty($category)) {
             return null;
-        } else {
-            return new CategoryDTO($category->ParentId, $category->Code, $category->Title, $category->Description,
-                $category->Id);
         }
+
+        return new CategoryDTO($category->ParentId, $category->Code, $category->Title, $category->Description,
+            $category->Id);
     }
 
     /**
@@ -156,6 +156,32 @@ class CategoryService
     public static function getChildrenCount(int $id): int
     {
         return CategoryRepository::getChildrenCount($id);
+    }
+
+    /**
+     * Returns all categories that match name
+     *
+     * @param string $categoryName
+     *
+     * @return array|null
+     */
+    public static function getCategoriesByName(string $categoryName): ?array
+    {
+        $ids = array();
+        $categories = CategoryRepository::getCategoriesByName($categoryName);
+        if ($categories !== null) {
+            foreach ($categories as $category) {
+                $ids[] = $category->Id;
+                $childrenIds = self::getChildrenIds($category->Id);
+                foreach ($childrenIds as $childrenId) {
+                    $ids[] = $childrenId;
+                }
+            }
+
+            return $ids;
+        }
+
+        return null;
     }
 
 }

@@ -5,6 +5,8 @@ namespace Catalog\Data\Repositories;
 use Catalog\Data\DTO\Product;
 use Catalog\Data\Models\Category;
 use Catalog\Data\Models\Product as ProductModel;
+use Catalog\Data\Models\RelevanceView;
+use Catalog\Utility\ParameterSearch;
 use Illuminate\Database\Eloquent\Collection;
 
 /**
@@ -15,6 +17,8 @@ use Illuminate\Database\Eloquent\Collection;
 class ProductRepository
 {
     /**
+     * Method to add new product to database.
+     *
      * @param Product $newProduct
      */
     public static function addNewProduct(Product $newProduct): void
@@ -35,9 +39,11 @@ class ProductRepository
     }
 
     /**
+     * Returns product by sku.
+     *
      * @param string $sku
      *
-     * @return ProductDTO | null
+     * @return ProductModel | null
      */
     public static function getProductBySKU(string $sku): ?ProductModel
     {
@@ -50,7 +56,7 @@ class ProductRepository
      */
     public static function updateProductImageBySKU(string $sku, string $imagePath): void
     {
-        ProductModel::where('SKU', $sku)->update([
+        ProductModel::query()->where('SKU', $sku)->update([
             'Image' => $imagePath
         ]);
     }
@@ -63,7 +69,7 @@ class ProductRepository
     public static function getPage(int $pageOffset): ?Collection
     {
 
-        return ProductModel::offset($pageOffset * 10)->limit(10)->get();
+        return ProductModel::query()->offset($pageOffset * 10)->limit(10)->get();
     }
 
     /**
@@ -84,7 +90,7 @@ class ProductRepository
     public static function enableSelectedProducts(array $productsToEnable): void
     {
         foreach ($productsToEnable as $product) {
-            ProductModel::where('SKU', $product->getSKU())->update([
+            ProductModel::query()->where('SKU', $product->getSKU())->update([
                 'Enabled' => 1
             ]);
         }
@@ -98,7 +104,7 @@ class ProductRepository
     public static function disableSelectedProducts(array $productsToDisable): void
     {
         foreach ($productsToDisable as $product) {
-            ProductModel::where('SKU', $product->getSKU())->update([
+            ProductModel::query()->where('SKU', $product->getSKU())->update([
                 'Enabled' => 0
             ]);
         }
@@ -112,7 +118,7 @@ class ProductRepository
     public static function deleteSelectedProducts(array $productsToDelete): void
     {
         foreach ($productsToDelete as $product) {
-            ProductModel::where('SKU', $product->getSKU())->delete();
+            ProductModel::query()->where('SKU', $product->getSKU())->delete();
             unlink($product->getImage());
         }
     }
@@ -124,7 +130,7 @@ class ProductRepository
      */
     public static function deleteProduct(Product $product): void
     {
-        ProductModel::where('SKU', $product->getSKU())->delete();
+        ProductModel::query()->where('SKU', $product->getSKU())->delete();
         unlink($product->getImage());
     }
 
@@ -133,7 +139,7 @@ class ProductRepository
      */
     public static function editProduct(Product $product): void
     {
-        ProductModel::where('Id', $product->getId())->update([
+        ProductModel::query()->where('Id', $product->getId())->update([
             'CategoryId' => $product->getCategoryId(),
             'SKU' => $product->getSku(),
             'Title' => $product->getTitle(),
@@ -153,7 +159,7 @@ class ProductRepository
      */
     public static function getMostViewedProduct(): ProductModel
     {
-        return ProductModel::orderBy('ViewCount', 'desc')->first();
+        return ProductModel::query()->orderBy('ViewCount', 'desc')->first();
     }
 
     /**
@@ -163,7 +169,7 @@ class ProductRepository
      */
     public static function getFeaturedProducts(): ?Collection
     {
-        return ProductModel::where('Featured', 1)->get();
+        return ProductModel::query()->where('Featured', 1)->get();
     }
 
     /**
@@ -177,14 +183,21 @@ class ProductRepository
     {
         $category = Category::where('Code', $categoryCode)->first();
 
-        return ProductModel::where('CategoryId', $category->Id)->get();
+        return ProductModel::query()->where('CategoryId', $category->Id)->get();
     }
 
+    /**
+     * Returns all products by category code.
+     *
+     * @param string $categoryCode
+     *
+     * @return Collection|null
+     */
     public static function getAllProductsByCategoryCode(string $categoryCode): ?Collection
     {
         $category = Category::where('Code', $categoryCode)->first();
 
-        return ProductModel::where('CategoryId', $category->Id)->get();
+        return ProductModel::query()->where('CategoryId', $category->Id)->get();
     }
 
     /**
@@ -265,4 +278,95 @@ class ProductRepository
         return ProductModel::query()->where('CategoryId', $id)->orderBy($column, $sortingDirection)->get()->count();
     }
 
+    /**
+     * Returns number of products that satisfy search criteria.
+     *
+     * @param ParameterSearch $searchParam
+     *
+     * @return int
+     */
+    public static function countNumberProducts(
+        $searchParam
+    ): int {
+        $productQuery = RelevanceView::query();
+
+        if (!empty($searchParam->categoryInfo)) {
+            $productQuery->whereIn('CategoryId', $searchParam->categoryInfo);
+        }
+
+        if (!empty($searchParam->keyword)) {
+
+            $productQuery->where(function ($query) use ($searchParam) {
+                return $query->where('Title', 'like', '%' . $searchParam->keyword . '%')->
+                orWhere('Brand', 'like', '%' . $searchParam->keyword . '%')->
+                orWhere('CategoryTitle', 'like', '%' . $searchParam->keyword . '%')->
+                orWhere('ShortDescription', 'like', '%' . $searchParam->keyword . '%')->
+                orWhere('Description', 'like', '%' . $searchParam->keyword . '%');
+            });
+        }
+
+        if ($searchParam->minPrice !== null && $searchParam->maxPrice !== null) {
+            if ($searchParam->minPrice !== $searchParam->maxPrice) {
+                $productQuery->whereBetween('Price', [$searchParam->minPrice, $searchParam->maxPrice]);
+            }
+        }
+
+        if (!empty($searchParam->keyword)) {
+            $productQuery->orderByRaw("CASE WHEN Title LIKE '%" . $searchParam->keyword . "%' THEN 1 " .
+                " WHEN Brand LIKE '%" . $searchParam->keyword . "%' THEN 2 " .
+                " WHEN CategoryTitle LIKE '%" . $searchParam->keyword . "%' THEN 3 " .
+                " WHEN ShortDescription LIKE '%" . $searchParam->keyword . "%' THEN 4 " .
+                " WHEN Description LIKE '%" . $searchParam->keyword . "%' THEN 5 END ASC");
+        }
+
+        return $productQuery->distinct()->count();
+    }
+
+    /**
+     * Returns products that match search criteria.
+     *
+     * @param ParameterSearch $searchParam
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public static function searchProducts(
+        ParameterSearch $searchParam
+    ): \Illuminate\Support\Collection {
+        $productQuery = RelevanceView::query();
+
+        if (!empty($searchParam->categoryInfo)) {
+            $productQuery->whereIn('CategoryId', $searchParam->categoryInfo);
+        }
+
+        if (!empty($searchParam->keyword)) {
+
+            $productQuery->where(function ($query) use ($searchParam) {
+                return $query->where('Title', 'like', '%' . $searchParam->keyword . '%')->
+                orWhere('Brand', 'like', '%' . $searchParam->keyword . '%')->
+                orWhere('CategoryTitle', 'like', '%' . $searchParam->keyword . '%')->
+                orWhere('ShortDescription', 'like', '%' . $searchParam->keyword . '%')->
+                orWhere('Description', 'like', '%' . $searchParam->keyword . '%');
+            });
+        }
+
+        if ($searchParam->minPrice !== null && $searchParam->maxPrice !== null) {
+            if ($searchParam->minPrice !== $searchParam->maxPrice) {
+                $productQuery->whereBetween('Price', [$searchParam->minPrice, $searchParam->maxPrice]);
+            }
+        }
+
+        if (!empty($searchParam->keyword)) {
+            $productQuery->orderByRaw("CASE WHEN Title LIKE '%" . $searchParam->keyword . "%' THEN 1 " .
+                " WHEN Brand LIKE '%" . $searchParam->keyword . "%' THEN 2 " .
+                " WHEN CategoryTitle LIKE '%" . $searchParam->keyword . "%' THEN 3 " .
+                " WHEN ShortDescription LIKE '%" . $searchParam->keyword . "%' THEN 4 " .
+                " WHEN Description LIKE '%" . $searchParam->keyword . "%' THEN 5 END ASC");
+        }
+
+        return $productQuery->distinct()->offset($searchParam->offset)->limit($searchParam->limit)->get();
+    }
+
 }
+
+
+

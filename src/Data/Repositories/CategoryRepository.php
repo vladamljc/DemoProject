@@ -151,4 +151,14 @@ class CategoryRepository
         return Category::query()->where('ParentId', $id)->count();
     }
 
+    /**
+     * @param string $categoryName
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public static function getCategoriesByName(string $categoryName): \Illuminate\Support\Collection
+    {
+        return Category::query()->where('Title', 'like', '%' . $categoryName . '%')->get();
+    }
+
 }

@@ -4,6 +4,7 @@ namespace Catalog\Services;
 
 use Catalog\Data\DTO\Product;
 use Catalog\Data\Repositories\ProductRepository;
+use Catalog\Utility\ParameterSearch;
 
 /**
  * Class ProductService
@@ -170,18 +171,6 @@ class ProductService
     }
 
     /**
-     * Returns products that belong to category and subcategories.
-     *
-     * @param int $myId
-     *
-     * @return array
-     */
-    public static function getAllProductsByCategoryCode(int $myId): array
-    {
-        return self::getSubCategoriesIds($myId);
-    }
-
-    /**
      * Method that returns filtered products for category that has subcategories.
      *
      * @param array $ids
@@ -276,6 +265,72 @@ class ProductService
         $sortDirection = $method === 'ascending' ? 'asc' : 'desc';
 
         return ProductRepository::getProductsNumberById($id, $column, $sortDirection);
+    }
+
+    /**
+     * Method used to search database for products required by criteria.
+     *
+     * @param ParameterSearch $searchParam
+     *
+     * @return array
+     */
+    public static function searchProducts(
+        $searchParam
+    ): array {
+
+        if ($searchParam->categoryInfo['code'] !== 'any') {
+            $id = CategoryService::getCategoryByCode($searchParam->categoryInfo['code'])->getId();
+            $children = CategoryService::getChildrenIds($id);
+            $children[] = $id;
+            $searchParam->categoryInfo = $children;
+        } else {
+            $searchParam->categoryInfo = array();
+        }
+
+        return $searchParam->searchType === 'relevance' ? self::searchRelevance($searchParam) : array();
+    }
+
+    /**
+     * Returns number of products that match search criteria.
+     *
+     * @param ParameterSearch $searchParam
+     *
+     * @return int
+     */
+    public static function countNumberProducts(ParameterSearch $searchParam): int
+    {
+        if ($searchParam->categoryInfo['code'] !== 'any') {
+            $id = CategoryService::getCategoryByCode($searchParam->categoryInfo['code'])->getId();
+            $children = CategoryService::getChildrenIds($id);
+            $searchParam->categoryInfo = $children;
+        } else {
+            $searchParam->categoryInfo = array();
+        }
+
+        return ProductRepository::countNumberProducts($searchParam);
+    }
+
+    /**
+     * Does search by defined relevance. First titles are searched etc...
+     *
+     * @param ParameterSearch $searchParam
+     *
+     * @return array
+     */
+    public static function searchRelevance(ParameterSearch $searchParam): array
+    {
+        $productDTOs = array();
+        $productsModels = ProductRepository::searchProducts($searchParam);
+        foreach ($productsModels as $productModel) {
+            $productDTO = new Product($productModel->CategoryId, $productModel->SKU, $productModel->Title,
+                $productModel->Brand, $productModel->Price,
+                $productModel->ShortDescription, $productModel->Description, $productModel->Image,
+                $productModel->Enabled, $productModel->Featured,
+                $productModel->ViewCount);
+            $productDTOs[] = $productDTO;
+        }
+
+        return $productDTOs;
     }
 
 }

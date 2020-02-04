@@ -23,7 +23,12 @@
     <div class="homepage-categories">
 
         <div class="search-bar">
-            search bar
+            <div class="search-bar-wrapper">
+                <form>
+                    <input type="text" id="idSearch" name="keyword"/>
+                    <button id="idButtonSearch" action="/search">Search</button>
+                </form>
+            </div>
         </div>
 
         <div class="list-categories">

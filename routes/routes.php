@@ -6,6 +6,7 @@ use Catalog\Controllers\HomeController;
 use Catalog\Controllers\LoginController;
 use Catalog\Controllers\ProductController;
 use Catalog\Controllers\ProductFrontController;
+use Catalog\Controllers\ProductSearchController;
 use Catalog\Middleware\AdminMiddleware;
 use Catalog\Routes\Route;
 use Catalog\Routes\Routes;
@@ -60,6 +61,8 @@ Routes::add(new Route(ProductController::class, 'editProduct', '/admin/products/
 Routes::add(new Route(ProductFrontController::class, 'index', '/product/[param]', 'GET'));
 Routes::add(new Route(ProductFrontController::class, 'renderProducts', '/products/{param}/{paramCategory}', 'GET'));
 
+Routes::add(new Route(ProductSearchController::class, 'index', '/search', 'GET'));
+Routes::add(new Route(ProductSearchController::class, 'getPage', '/search/pagination/', 'GET'));
 
 
 

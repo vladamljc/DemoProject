@@ -3,10 +3,9 @@
 namespace Catalog\Data\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
- * Class Product
+ * Class RelevanceView
  *
  * @package Catalog\Data\Models
  * @property int Id
@@ -21,15 +20,10 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property int Enabled
  * @property int Featured
  * @property int ViewCount
+ * @property string CategoryTitle
  */
-class Product extends Model
+class RelevanceView extends Model
 {
     public $timestamps = false;
-    protected $table = 'product';
-
-    public function category(): HasOne
-    {
-        return $this->belongsTo('Catalog\Data\Models\Category');
-    }
-
+    protected $table = 'relevanceview';
 }
