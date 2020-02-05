@@ -225,4 +225,100 @@ class Product
         $this->id = $id;
     }
 
+    /**
+     * @param int $categoryId
+     */
+    public function setCategoryId(int $categoryId): void
+    {
+        $this->categoryId = $categoryId;
+    }
+
+    /**
+     * @param string $sku
+     */
+    public function setSku(string $sku): void
+    {
+        $this->sku = $sku;
+    }
+
+    /**
+     * @param string $title
+     */
+    public function setTitle(string $title): void
+    {
+        $this->title = $title;
+    }
+
+    /**
+     * @param string $brand
+     */
+    public function setBrand(string $brand): void
+    {
+        $this->brand = $brand;
+    }
+
+    /**
+     * @param int $price
+     */
+    public function setPrice(int $price): void
+    {
+        $this->price = $price;
+    }
+
+    /**
+     * @param string $shortDescription
+     */
+    public function setShortDescription(string $shortDescription): void
+    {
+        $this->shortDescription = $shortDescription;
+    }
+
+    /**
+     * @param string $description
+     */
+    public function setDescription(string $description): void
+    {
+        $this->description = $description;
+    }
+
+    /**
+     * @param string $image
+     */
+    public function setImage(string $image): void
+    {
+        $this->image = $image;
+    }
+
+    /**
+     * @param int $enabled
+     */
+    public function setEnabled(int $enabled): void
+    {
+        $this->enabled = $enabled;
+    }
+
+    /**
+     * @param int $featured
+     */
+    public function setFeatured(int $featured): void
+    {
+        $this->featured = $featured;
+    }
+
+    /**
+     * @param int $viewCount
+     */
+    public function setViewCount(int $viewCount): void
+    {
+        $this->viewCount = $viewCount;
+    }
+
+    /**
+     * @param mixed $oldSKU
+     */
+    public function setOldSKU($oldSKU): void
+    {
+        $this->oldSKU = $oldSKU;
+    }
+
 }

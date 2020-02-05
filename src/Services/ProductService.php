@@ -311,7 +311,7 @@ class ProductService
     }
 
     /**
-     * Does search by defined relevance. First titles are searched etc...
+     * Does search by defined relevance. First titles are searched etc.
      *
      * @param ParameterSearch $searchParam
      *
@@ -331,6 +331,16 @@ class ProductService
         }
 
         return $productDTOs;
+    }
+
+    /**
+     *Increment view count for product passed as argument.
+     *
+     * @param Product $product
+     */
+    public static function incrementViewCount(Product $product): void
+    {
+        ProductRepository::incrementViewCount($product);
     }
 
 }

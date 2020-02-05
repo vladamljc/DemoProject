@@ -366,6 +366,18 @@ class ProductRepository
         return $productQuery->distinct()->offset($searchParam->offset)->limit($searchParam->limit)->get();
     }
 
+    /**
+     *Increment view count for product passed as argument.
+     *
+     * @param Product $product
+     */
+    public static function incrementViewCount(Product $product): void
+    {
+        ProductModel::query()->where('Id', $product->getId())->update([
+            'ViewCount' => $product->getViewCount()
+        ]);
+    }
+
 }
 
 

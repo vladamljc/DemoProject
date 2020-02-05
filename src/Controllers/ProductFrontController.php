@@ -28,8 +28,20 @@ class ProductFrontController extends FrontController
     {
         $response = new HTMLResponse();
 
+        $product = ProductService::getProductBySKU($request->getParameters()[1]);
+
+        if ($product === null) {
+            $response->setContent('Product does not exist');
+
+            return $response;
+        }
+
         $response->setContent(ViewRenderer::render('views/visitor/SelectedProductInformation',
-            [ProductService::getProductBySKU($request->getParameters()[1])]));
+            [$product]));
+
+        $product->setViewCount($product->getViewCount() + 1);
+
+        ProductService::incrementViewCount($product);
 
         return $response;
     }
