@@ -23,13 +23,13 @@ Routes::add(new Route(CategoryController::class, 'index', '/admin/categories', '
 
 Routes::add(new Route(ProductController::class, 'index', '/admin/products', 'GET', [AdminMiddleware::class]));
 
-Routes::add(new Route(CategoryController::class, 'addCategory', '/admin/categories', 'POST'));
+Routes::add(new Route(CategoryController::class, 'addCategory', '/admin/categories', 'POST', [AdminMiddleware::class]));
 
 Routes::add(new Route(CategoryController::class, 'showAddNewCategoryForm', '/admin/categories/addFormView', 'GET',
     [AdminMiddleware::class]));
 
 Routes::add(new Route(CategoryController::class, 'showAddNewSubCategoryForm', '/admin/categories/addSubFormView',
-    'GET'));
+    'GET', [AdminMiddleware::class]));
 Routes::add(new Route(CategoryController::class, 'addSubCategory', '/admin/categories/addSubCategory', 'POST',
     [AdminMiddleware::class]));
 Routes::add(new Route(CategoryController::class, 'showSelectedCategory', '/admin/categories/showSelectedCategory',
@@ -45,18 +45,26 @@ Routes::add(new Route(CategoryController::class, 'editCategory', '/admin/categor
 Routes::add(new Route(CategoryController::class, 'deleteCategory', '/admin/categories/deleteCategory', 'DELETE',
     [AdminMiddleware::class]));
 
-Routes::add(new Route(ProductController::class, 'getAddNewProductView', '/admin/product/create', 'GET'));
-Routes::add(new Route(ProductController::class, 'addNewProduct', '/admin/product/create', 'POST'));
-Routes::add(new Route(ProductController::class, 'uploadProductImage', '/admin/product/uploadImage', 'POST'));
-Routes::add(new Route(ProductController::class, 'getPage', '/admin/products/getPage', 'GET'));
-Routes::add(new Route(ProductController::class, 'enableProducts', '/admin/products/enableProducts', 'POST'));
-Routes::add(new Route(ProductController::class, 'disableProducts', '/admin/products/disableProducts', 'POST'));
+Routes::add(new Route(ProductController::class, 'getAddNewProductView', '/admin/product/create', 'GET',
+    [AdminMiddleware::class]));
+Routes::add(new Route(ProductController::class, 'addNewProduct', '/admin/product/create', 'POST',
+    [AdminMiddleware::class]));
+Routes::add(new Route(ProductController::class, 'uploadProductImage', '/admin/product/uploadImage', 'POST',
+    [AdminMiddleware::class]));
+Routes::add(new Route(ProductController::class, 'getPage', '/admin/products/getPage', 'GET', [AdminMiddleware::class]));
+Routes::add(new Route(ProductController::class, 'enableProducts', '/admin/products/enableProducts', 'POST',
+    [AdminMiddleware::class]));
+Routes::add(new Route(ProductController::class, 'disableProducts', '/admin/products/disableProducts', 'POST',
+    [AdminMiddleware::class]));
 Routes::add(new Route(ProductController::class, 'deleteSelectedProducts', '/admin/products/deleteSelectedProducts',
-    'POST'));
-Routes::add(new Route(ProductController::class, 'deleteProduct', '/admin/products/deleteProduct', 'POST'));
+    'POST', [AdminMiddleware::class]));
+Routes::add(new Route(ProductController::class, 'deleteProduct', '/admin/products/deleteProduct', 'POST',
+    [AdminMiddleware::class]));
 
-Routes::add(new Route(ProductController::class, 'getEditProductView', '/admin/product/{param}', 'GET'));
-Routes::add(new Route(ProductController::class, 'editProduct', '/admin/products/editProduct', 'GET'));
+Routes::add(new Route(ProductController::class, 'getEditProductView', '/admin/product/{param}', 'GET',
+    [AdminMiddleware::class]));
+Routes::add(new Route(ProductController::class, 'editProduct', '/admin/products/editProduct', 'GET',
+    [AdminMiddleware::class]));
 
 Routes::add(new Route(ProductFrontController::class, 'index', '/product/[param]', 'GET'));
 Routes::add(new Route(ProductFrontController::class, 'renderProducts', '/products/{param}/{paramCategory}', 'GET'));

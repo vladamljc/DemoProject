@@ -20,7 +20,7 @@ class LoginService
      *
      * @param string $username
      * @param string $password
-     * @param bool $check
+     * @param bool $stayLoggedIn
      *
      * @return bool
      */
@@ -48,7 +48,7 @@ class LoginService
 
         $cookieName = 'cookieAdmin';
         if ($stayLoggedIn === true) {
-            CookieManagement::setCookie($username, $cookieName);
+            CookieManagement::setCookie($username, $passwordHashed, $cookieName);
         } else {
             CookieManagement::removeCookie($cookieName);
         }

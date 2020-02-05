@@ -2,8 +2,10 @@
 
 namespace Catalog\Middleware;
 
+use Catalog\Data\Repositories\AdminRepository;
 use Catalog\Exceptions\MiddlewarePassFailed;
 use Catalog\Http\Request;
+use Catalog\Utility\CookieManagement;
 use Catalog\Utility\Session;
 
 /**
@@ -27,6 +29,19 @@ class AdminMiddleware extends Middleware
             if (!Session::areSessionParametersSet()) {
                 throw new MiddlewarePassFailed('USER ACTION NOT AUTHORIZED!');
             }
+        } else {
+            $hashedCookieValue = CookieManagement::readCookie('cookieAdmin');
+            $admins = AdminRepository::getAdmins();
+            foreach ($admins as $admin) {
+                $username = $admin->Username;
+                $password = $admin->Password;
+                $hashedAdminValue = hash('sha256', $username . '/' . $password);
+                if (hash_equals($hashedCookieValue, $hashedAdminValue)) {
+                    return;
+                }
+            }
+            throw new MiddlewarePassFailed('USER ACTION NOT AUTHORIZED!');
         }
     }
 }
+

@@ -3,6 +3,7 @@
 namespace Catalog\Data\Repositories;
 
 use Catalog\Data\Models\Admin;
+use Illuminate\Support\Collection;
 
 /**
  * Class AdminRepository
@@ -21,7 +22,17 @@ class AdminRepository
      */
     public static function getByUsername(string $username): ?Admin
     {
-        return Admin::where(['username' => $username])->first();
+        return Admin::query()->where('username', $username)->first();
+    }
+
+    /**
+     * Returns all admins from database.
+     *
+     * @return Collection
+     */
+    public static function getAdmins(): Collection
+    {
+        return Admin::all();
     }
 
 }
