@@ -55,8 +55,12 @@
             echo '</td>';
 
             echo '<td>';
-            echo '<input type="button" value="update" onclick="Catalog.adminProduct.getEditProductView(' . "'" . $row->getSKU() . "'" . ')" />';
+            echo '<a href="' . '/admin/product/' . $row->getSKU() . '">' . '<input type="button" value="update" />' . '</a>';
             echo '</td>';
+
+//            echo '<td>';
+//            echo '<input type="button" value="update" onclick="Catalog.adminProduct.getEditProductView(' . "'" . $row->getSKU() . "'" . ')" />';
+//            echo '</td>';
 
             echo '<td>';
             echo '<input type="button" value="delete" onclick="Catalog.adminProduct.deleteProduct(' . "'" . $row->getSKU() . "'" . ')" />';

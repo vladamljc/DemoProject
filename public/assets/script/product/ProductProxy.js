@@ -9,9 +9,6 @@ var Catalog = window.Catalog || {};
             return Catalog.ajaxService.get(uri);
         };
 
-        // me.addNewProduct = function (uri, json) {
-        //     return Catalog.ajaxService.post(uri, json, 'jsonHeader');
-        // };
         me.addNewProduct = function (uri, json) {
             return Catalog.ajaxService.get(uri);
         };
@@ -46,7 +43,7 @@ var Catalog = window.Catalog || {};
 
         me.editProduct = function (uri) {
             return Catalog.ajaxService.get(uri);
-        }
+        };
     }
 
     Catalog.productProxy = new ProductProxy();

@@ -269,6 +269,8 @@ class ProductController extends AdminController
     }
 
     /**
+     * Method that returns form view for editing product.
+     *
      * @param Request $request
      *
      * @return Response
@@ -276,8 +278,6 @@ class ProductController extends AdminController
     public function getEditProductView(Request $request): Response
     {
         $response = new HTMLResponse();
-
-        $productData = array();
 
         $allCategories = CategoryService::getAllCategories();
         $categories = array();
@@ -305,19 +305,21 @@ class ProductController extends AdminController
 
         $imageName = $imagePathPieces[$numPieces - 1];
 
-        $productData['category'] = $categories;
-        $productData['productInfo'] = $productDTO;
-        $productData['imagePath'] = '/assets/Images/' . $imageName;
-        $productData['myCategoryCode'] = $categoryDTO->getCode();
-        $productData['idProductIdHidden'] = $productDTO->getId();
+        $productData = array(
+            'category' => $categories,
+            'productInfo' => $productDTO,
+            'imagePath' => '/assets/Images/' . $imageName,
+            'myCategoryCode' => $categoryDTO->getCode(),
+            'idProductIdHidden' => $productDTO->getId()
+        );
 
-        $response->setContent(ViewRenderer::render('views/snippets/admin/products/EditProductView', $productData));
+        $response->setContent(ViewRenderer::render('views/admin/AdminEditProduct', $productData));
 
         return $response;
     }
 
     /**
-     * Method used to edit product
+     * Method used to edit product.
      *
      * @param Request $request
      *
