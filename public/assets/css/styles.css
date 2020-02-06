@@ -91,9 +91,9 @@
     height: 100%;
 }
 
-.category-form-view select, input {
-    width: 100%;
-}
+/*.category-form-view select, input {*/
+/*    width: 100%;*/
+/*}*/
 
 .header-form-style {
     background: lightskyblue;
@@ -214,7 +214,7 @@
 }
 
 .product-form-data {
-    width: 30%;
+    width: 40%;
     height: 100%;
     float: left;
     padding: 20px;
@@ -227,59 +227,28 @@
     padding: 20px;
 }
 
-.product-info {
-    width: 100%;
-    float: left;
-    margin-bottom: 10px;
-    font-size: 20px;
-}
-
-.product-info-area {
-    width: 100%;
-    float: left;
-    height: 120px;
-    margin-bottom: 10px;
-    font-size: 20px;
-}
-
-.product-info input, textarea, select {
-    width: 70%;
-}
-
-.block-left {
-    width: 25%;
-    float: left;
-}
-
-.block-right {
-    width: 75%;
-    float: left;
-}
-
-.block-right textarea {
-    height: 100px;
-}
-
 .image-text {
     width: 15%;
-    height: 300px;
+    height: 400px;
+    font-size: 20px;
     float: left;
 }
 
 .image-area {
-    width: 50%;
-    height: 300px;
+    width: 70%;
+    height: 400px;
     float: left;
 }
 
 .upload-button {
-    width: 65%;
+    width: 90%;
     float: left;
+    margin-left: 15%;
 }
 
 .upload-button-style {
-    width: 120px;
-    float: right;
+    width: 300px;
+    float: left;
     margin-top: 5px;
 }
 
@@ -422,8 +391,9 @@
 }
 
 .search-bar input[type = text] {
-    width: 40%;
+    width: 60%;
     height: 40%;
+    margin-left: 10px;
     float: left;
 }
 
@@ -706,23 +676,81 @@
     justify-content: space-between;
 }
 
-.wrapper-search-criteria-bottom select, input[type=text] {
+.wrapper-search-criteria-bottom select {
     min-width: 200px;
     max-width: 200px;
     min-height: 30px;
     max-height: 30px;
 }
 
-.wrapper-search-criteria-bottom select, input[type=number] {
+.wrapper-search-criteria-bottom input[type=text] {
     min-width: 200px;
     max-width: 200px;
     min-height: 30px;
     max-height: 30px;
 }
+
+.wrapper-search-criteria-bottom input[type=number] {
+    min-width: 200px;
+    max-width: 200px;
+    min-height: 30px;
+    max-height: 30px;
+}
+
+.wrapper-search-criteria-bottom select {
+    min-width: 200px;
+    max-width: 200px;
+    min-height: 30px;
+    max-height: 30px;
+}
+
 
 .wrapper-search-criteria-bottom input[type=submit] {
     min-width: 100px;
     max-width: 100px;
     min-height: 30px;
     max-height: 30px;
+}
+
+.product-info {
+    width: 90%;
+    float: left;
+    margin-bottom: 10px;
+    font-size: 20px;
+    height: 5%;
+}
+
+.product-info-area {
+    width: 90%;
+    float: left;
+    height: 120px;
+    margin-bottom: 10px;
+    font-size: 20px;
+}
+
+.block-left {
+    width: 25%;
+    float: left;
+}
+
+.block-right {
+    width: 65%;
+    float: left;
+}
+
+.block-right select {
+    width: 90%;
+}
+
+.block-right input {
+    width: 90% !important;
+}
+
+.block-right textarea {
+    height: 100px;
+    width: 90%;
+}
+
+.block-right input[type=number] {
+    width: 90%;
 }

@@ -3,10 +3,11 @@
     <div class="products-top">
         <h1>Products</h1>
         <div class="product-buttons">
-            <button id="idButtonNewProduct" name="ButtonNewProduct" onclick="Catalog.adminProduct.getNewProductView()">
-                Add new product
-            </button>
-
+            <a href="/admin/product/create">
+                <button id="idButtonNewProduct" name="ButtonNewProduct">
+                    Add new product
+                </button>
+            </a>
             <button id="idButtonDeleteProducts" name="ButtonDeleteProducts"
                     onclick="Catalog.adminProduct.deleteSelectedProducts()">
                 Delete products

@@ -1,5 +1,5 @@
 <div class="add-new-product">
-    <form method="post">
+
         <div class="product-form-data">
 
             <div class="product-info">
@@ -17,7 +17,7 @@
                 </div>
 
                 <div class="block-right">
-                    <input type="text" id="idTitle" required/>
+                    <input type="text" id="idTitle" name="Title" required/>
                 </div>
             </div>
 
@@ -26,7 +26,7 @@
                     <label for="idBrand">Brand:</label>
                 </div>
                 <div class="block-right">
-                    <input type="text" id="idBrand" required/>
+                    <input type="text" id="idBrand" name="Brand" required/>
                 </div>
             </div>
 
@@ -36,10 +36,10 @@
                 </div>
 
                 <div class="block-right">
-                    <select id="idCategory">
+                    <select id="idCategory" name="CategoryCode">
                         <?php
                         foreach ($data as $categoryBean) {
-                            echo "<option value='$categoryBean->code'>$categoryBean->title</option>";
+                            echo "<option value='$categoryBean->code' >  $categoryBean->parentTitle -> $categoryBean->title</option>";
                         }
                         ?>
                     </select>
@@ -52,7 +52,7 @@
                     <label for="idPrice">Price:</label>
                 </div>
                 <div class="block-right">
-                    <input type="text" id="idPrice" required/>
+                    <input type="number" id="idPrice" name="Price" required/>
                 </div>
             </div>
 
@@ -61,7 +61,7 @@
                     <label for="idShortDescription">Short description:</label>
                 </div>
                 <div class="block-right">
-                    <textarea id="idShortDescription"></textarea>
+                    <textarea id="idShortDescription" name="ShortDescription"></textarea>
                 </div>
 
             </div>
@@ -71,14 +71,14 @@
                     <label for="idDescription">Description:</label>
                 </div>
                 <div class="block-right">
-                    <textarea id="idDescription"></textarea>
+                    <textarea id="idDescription" name="Description"></textarea>
                 </div>
 
             </div>
 
             <div class="product-info">
                 <div class="block-left">
-                    <input type="checkbox" id="idEnabled"/>
+                    <input type="checkbox" id="idEnabled" name="Enabled"/>
                 </div>
                 <div class="block-right">
                     <label for="idEnabled">Enabled in shop</label>
@@ -87,7 +87,7 @@
 
             <div class="product-info">
                 <div class="block-left">
-                    <input type="checkbox" id="idFeatured"/>
+                    <input type="checkbox" id="idFeatured" name="Featured"/>
                 </div>
                 <div class="block-right">
                     <label for="idFeatured">Featured</label>
@@ -122,5 +122,5 @@
             </div>
 
         </div>
-    </form>
+
 </div>

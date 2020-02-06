@@ -9,8 +9,11 @@ var Catalog = window.Catalog || {};
             return Catalog.ajaxService.get(uri);
         };
 
+        // me.addNewProduct = function (uri, json) {
+        //     return Catalog.ajaxService.post(uri, json, 'jsonHeader');
+        // };
         me.addNewProduct = function (uri, json) {
-            return Catalog.ajaxService.post(uri, json, 'jsonHeader');
+            return Catalog.ajaxService.get(uri);
         };
 
         me.uploadProductImage = function (uri, formData) {

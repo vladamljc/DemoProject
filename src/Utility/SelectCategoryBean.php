@@ -30,7 +30,7 @@ class SelectCategoryBean
      * @param string $code
      * @param string $parentTitle
      */
-    public function __construct(string $title, string $code, string $parentTitle)
+    public function __construct(string $title, string $code, string $parentTitle = '')
     {
         $this->title = $title;
         $this->code = $code;

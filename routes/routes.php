@@ -47,7 +47,7 @@ Routes::add(new Route(CategoryController::class, 'deleteCategory', '/admin/categ
 
 Routes::add(new Route(ProductController::class, 'getAddNewProductView', '/admin/product/create', 'GET',
     [AdminMiddleware::class]));
-Routes::add(new Route(ProductController::class, 'addNewProduct', '/admin/product/create', 'POST',
+Routes::add(new Route(ProductController::class, 'addNewProduct', '/admin/product/createNewProduct', 'GET',
     [AdminMiddleware::class]));
 Routes::add(new Route(ProductController::class, 'uploadProductImage', '/admin/product/uploadImage', 'POST',
     [AdminMiddleware::class]));

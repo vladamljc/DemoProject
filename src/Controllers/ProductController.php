@@ -34,26 +34,35 @@ class ProductController extends AdminController
     }
 
     /**
-     * returns add new product page
+     * Returns add new product page.
      *
      * @return Response
      */
     public function getAddNewProductView(): Response
     {
         $response = new HTMLResponse();
+
         $allCategories = CategoryService::getAllCategories();
         $categories = array();
         foreach ($allCategories as $category) {
-            $categoryBean = new SelectCategoryBean($category->getTitle(), $category->getCode());
+            $categoryTemp = CategoryService::getCategoryByCode($category->getCode());
+
+            if ($categoryTemp->getParentId() === -1) {
+                $parentTitle = 'Root';
+            } else {
+                $categoryParent = CategoryService::getCategoryById($categoryTemp->getParentId());
+                $parentTitle = $categoryParent->getTitle();
+            }
+            $categoryBean = new SelectCategoryBean($category->getTitle(), $category->getCode(), $parentTitle);
             $categories[] = $categoryBean;
         }
-        $response->setContent(ViewRenderer::render('views/snippets/admin/products/CreateNewProductView', $categories));
+        $response->setContent(ViewRenderer::render('views/admin/AdminCreateProduct', $categories));
 
         return $response;
     }
 
     /**
-     * method that is used to add new product
+     * Method that is used to add new product.
      *
      * @param Request $request
      *
@@ -61,21 +70,32 @@ class ProductController extends AdminController
      */
     public function addNewProduct(Request $request): Response
     {
-        header('Content-Type: application/json');
-        $bodyString = $request->getBody();
-        $data = json_decode($bodyString);
 
-        if (empty($data->SKU) || empty($data->Title) || empty($data->Brand) || empty($data->CategoryCode) || empty($data->Price) || empty($data->ShortDescription) || empty($data->Description)) {
+        $sku = $request->getQuery()['SKU'];
+        $title = $request->getQuery()['Title'];
+        $brand = $request->getQuery()['Brand'];
+        $categoryCode = $request->getQuery()['CategoryCode'];
+        $price = $request->getQuery()['Price'];
+        $shortDescription = $request->getQuery()['ShortDescription'];
+        $description = $request->getQuery()['Description'];
+        $enabled = $request->getQuery()['Enabled'];
+        $featured = $request->getQuery()['Featured'];
+
+        if (empty($sku) || empty($title) || empty($brand) || empty($categoryCode) || empty($price) || empty($shortDescription) || empty($description)) {
             return new JSONResponse(['success' => false, 'message' => 'All fields are required!']);
         }
-        if (!is_numeric($data->Price)) {
+        if (!is_numeric($price)) {
             return new JSONResponse(['success' => false, 'message' => 'ERROR: Price must be a number!']);
         }
 
-        $categoryDTO = CategoryService::getCategoryByCode($data->CategoryCode);
+        $categoryDTO = CategoryService::getCategoryByCode($categoryCode);
 
-        $newProduct = new Product($categoryDTO->getId(), $data->SKU, $data->Title, $data->Brand, $data->Price,
-            $data->ShortDescription, $data->Description, '', $data->Enabled, $data->Featured, 0);
+        if ($categoryDTO === null) {
+            return new JSONResponse(['success' => false, 'message' => 'ERROR: Category does not exist.']);
+        }
+
+        $newProduct = new Product($categoryDTO->getId(), $sku, $title, $brand, $price,
+            $shortDescription, $description, '', $enabled, $featured, 0);
 
         ProductService::addNewProduct($newProduct);
 
@@ -83,7 +103,7 @@ class ProductController extends AdminController
     }
 
     /**
-     * upload product image method
+     * Upload product image method.
      *
      * @param Request $request
      *
@@ -95,21 +115,21 @@ class ProductController extends AdminController
 
         if (ProductService::getProductBySKU($sku) !== null) {
 
-            //$ratio = $imageHeight / $imageWidth;
-//
-//            if ($ratio < 4 / 3 || $ratio > 16 / 9) {
-//                return new JSONResponse([
-//                    'success' => false,
-//                    'message' => 'ERROR: Image height/width ratio must be between 4/3 and 16/9.'
-//                ]);
-//            }
+            $imageName = $_FILES['fileToUpload']['tmp_name'];
+            list($width, $height) = getimagesize($imageName);
 
-//            if ($imageWidth < 600) {
-//                return new JSONResponse([
-//                    'success' => false,
-//                    'message' => 'ERROR: Image width must have at least 600pxs.'
-//                ]);
-//            }
+            $ratio = $height / $width;
+
+            if (($ratio < (4 / 3) || $ratio > (16 / 9)) || $width < 600) {
+
+                $product = ProductService::getProductBySKU($sku);
+                ProductService::deleteProduct($product);
+
+                return new JSONResponse([
+                    'success' => false,
+                    'message' => 'ERROR: Upload image requirements not met.'
+                ]);
+            }
 
             $target_dir = __DIR__ . '/../../public/assets/Images/';
             $target_file = $target_dir . basename($_FILES['fileToUpload']['name']);

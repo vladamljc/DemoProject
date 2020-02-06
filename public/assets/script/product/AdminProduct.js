@@ -26,36 +26,39 @@ var Catalog = window.Catalog || {};
             if (document.getElementById('idEnabled').checked) enabledFlag = 1; else enabledFlag = 0;
             if (document.getElementById('idFeatured').checked) featuredFlag = 1; else featuredFlag = 0;
 
-            let productObj = {
-                SKU: document.getElementById('idSKU').value,
-                Title: document.getElementById('idTitle').value,
-                Brand: document.getElementById('idBrand').value,
-                CategoryCode: document.getElementById('idCategory').value,
-                Price: document.getElementById('idPrice').value,
-                ShortDescription: document.getElementById('idShortDescription').value,
-                Description: document.getElementById('idDescription').value,
-                Enabled: enabledFlag,
-                Featured: featuredFlag
-            };
 
-            Catalog.productProxy.addNewProduct(uri, JSON.stringify(productObj)).then(function (response) {
+            let SKU = document.getElementById('idSKU').value;
+            let Title = document.getElementById('idTitle').value;
+            let Brand = document.getElementById('idBrand').value;
+            let CategoryCode = document.getElementById('idCategory').value;
+            let Price = document.getElementById('idPrice').value;
+            let ShortDescription = document.getElementById('idShortDescription').value;
+            let Description = document.getElementById('idDescription').value;
+            let Enabled = enabledFlag;
+            let Featured = featuredFlag;
+
+            let path = '/admin/product/createNewProduct?SKU=' + SKU + "&Title=" + Title + "&Brand=" + Brand + "&CategoryCode=" + CategoryCode + "&Price=" + Price + "&ShortDescription=" + ShortDescription + "&Description=" + Description + "&Enabled=" + Enabled + "&Featured=" + Featured;
+
+            Catalog.productProxy.addNewProduct(path).then(function (response) {
                 let message = JSON.parse(response);
                 document.getElementById('idUploadImageMessage').innerText = message.message;
+
+                let formData = new FormData();
+                formData.append("fileToUpload", document.getElementById('idButtonUploadImage').files[0]);
+                formData.append("SKU", document.getElementById('idSKU').value);
+
+                let uriUpload = '/admin/product/uploadImage';
+                Catalog.productProxy.uploadProductImage(uriUpload, formData).then(function (response) {
+                    let message = JSON.parse(response);
+                    document.getElementById('idUploadImageMessage').innerText += ' ' + message.message;
+                }).catch(function (err) {
+                    let message = JSON.parse(err);
+                    document.getElementById('idUploadImageMessage').innerText += ' ' + message.message;
+                });
+
+
             }).catch(function (err) {
                 document.getElementById('idUploadImageMessage').innerText = "Adding product failed.";
-            });
-
-            let formData = new FormData();
-            formData.append("fileToUpload", document.getElementById('idButtonUploadImage').files[0]);
-            formData.append("SKU", document.getElementById('idSKU').value);
-
-            let uriUpload = '/admin/product/uploadImage';
-            Catalog.productProxy.uploadProductImage(uriUpload, formData).then(function (response) {
-                let message = JSON.parse(response);
-                document.getElementById('idUploadImageMessage').innerText += ' ' + message.message;
-            }).catch(function (err) {
-                let message = JSON.parse(err);
-                document.getElementById('idUploadImageMessage').innerText += ' ' + message.message;
             });
 
 
